@@ -1,0 +1,30 @@
+---
+layout: base.njk
+permalink: contact.html
+title: Contact
+nav: contact
+---
+<section class="page-head">
+  <div class="wrap contact">
+    <div class="contact-intro">
+      <p class="eyebrow mono">Inquiries</p>
+      <h1 class="marquee marquee-md">Book a shoot</h1>
+      <p class="lede">Tell me about your date, your event and what you're picturing. I'll reply with availability and next steps.</p>
+      <dl class="facts facts-col">
+        {% if site.email %}<div><dt class="mono">Email</dt><dd><a href="mailto:{{ site.email }}">{{ site.email }}</a></dd></div>{% endif %}
+        {% if site.instagram %}<div><dt class="mono">Instagram</dt><dd><a href="https://instagram.com/{{ site.instagram }}" target="_blank" rel="noopener">@{{ site.instagram }}</a></dd></div>{% endif %}
+        <div><dt class="mono">Travel</dt><dd>{{ site.location }}</dd></div>
+      </dl>
+    </div>
+    <div class="contact-form">
+      {% if site.honeybook_embed %}
+        {{ site.honeybook_embed | safe }}
+      {% else %}
+        <div class="form-placeholder">
+          <p class="mono">HoneyBook form goes here</p>
+          <p>In HoneyBook, open your contact form, choose <strong>Publish → Copy code</strong>, then paste it into <strong>Admin → Site settings → HoneyBook embed code</strong>. It appears here on the next publish.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

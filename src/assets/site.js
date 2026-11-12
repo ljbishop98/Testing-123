@@ -1,0 +1,62 @@
+// Mobile menu
+const menuBtn = document.getElementById("menuBtn");
+const nav = document.getElementById("nav");
+if (menuBtn && nav) {
+  menuBtn.addEventListener("click", () => {
+    const open = nav.classList.toggle("open");
+    menuBtn.setAttribute("aria-expanded", String(open));
+  });
+}
+
+// Work page category filter (also reads #category from the URL)
+const chips = document.querySelectorAll(".chip");
+const cards = document.querySelectorAll("#galleryGrid .card");
+function applyFilter(cat) {
+  chips.forEach((c) => c.setAttribute("aria-pressed", String(c.dataset.filter === cat)));
+  cards.forEach((card) => { card.hidden = cat !== "all" && card.dataset.cat !== cat; });
+}
+if (chips.length) {
+  chips.forEach((c) => c.addEventListener("click", () => {
+    applyFilter(c.dataset.filter);
+    history.replaceState(null, "", c.dataset.filter === "all" ? location.pathname : "#" + c.dataset.filter);
+  }));
+  const fromHash = location.hash.slice(1);
+  if (fromHash && [...chips].some((c) => c.dataset.filter === fromHash)) applyFilter(fromHash);
+}
+
+// Gallery lightbox
+const shots = [...document.querySelectorAll(".shot")];
+const lb = document.getElementById("lightbox");
+if (shots.length && lb) {
+  const img = document.getElementById("lbImg");
+  const cap = document.getElementById("lbCap");
+  let i = 0;
+  const show = (n) => {
+    i = (n + shots.length) % shots.length;
+    img.src = shots[i].dataset.src;
+    img.alt = shots[i].querySelector("img").alt;
+    cap.textContent = (shots[i].dataset.caption ? shots[i].dataset.caption + " · " : "") + (i + 1) + " / " + shots.length;
+  };
+  const open = (n) => { show(n); lb.hidden = false; document.body.style.overflow = "hidden"; document.getElementById("lbClose").focus(); };
+  const close = () => { lb.hidden = true; document.body.style.overflow = ""; shots[i].focus(); };
+  shots.forEach((s, n) => s.addEventListener("click", () => open(n)));
+  document.getElementById("lbClose").addEventListener("click", close);
+  document.getElementById("lbPrev").addEventListener("click", () => show(i - 1));
+  document.getElementById("lbNext").addEventListener("click", () => show(i + 1));
+  lb.addEventListener("click", (e) => { if (e.target === lb) close(); });
+  document.addEventListener("keydown", (e) => {
+    if (lb.hidden) return;
+    if (e.key === "Escape") close();
+    if (e.key === "ArrowLeft") show(i - 1);
+    if (e.key === "ArrowRight") show(i + 1);
+  });
+}
+
+// After Kim accepts her admin invite (the link lands on the home page), send her to /admin
+window.addEventListener("load", () => {
+  const id = window.netlifyIdentity;
+  if (!id) return;
+  id.on("init", (user) => {
+    if (!user) id.on("login", () => { document.location.href = "/admin/"; });
+  });
+});

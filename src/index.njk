@@ -1,0 +1,70 @@
+---
+layout: base.njk
+permalink: index.html
+bodyClass: home
+---
+<section class="hero">
+  <div class="wrap hero-in">
+    <div class="hero-text">
+      <p class="eyebrow mono">{{ site.tagline }}</p>
+      <h1 class="marquee">Knack for Creativity</h1>
+      <p class="hero-by">Photography by Kimberly Castillo</p>
+      <p class="hero-intro">{{ site.intro }}</p>
+      <div class="hero-actions">
+        <a class="btn btn-gel" href="{{ '/contact.html' | rel(page.url) }}">Book a shoot</a>
+        <a class="btn btn-ghost" href="{{ '/work.html' | rel(page.url) }}">See the work</a>
+      </div>
+    </div>
+    <figure class="hero-frame">
+      <img src="{{ site.hero_image | rel(page.url) }}" alt="{{ site.hero_caption }}">
+      {% if site.hero_caption %}<figcaption class="hero-cap mono">{{ site.hero_caption }}</figcaption>{% endif %}
+    </figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="h2">Selected work</h2>
+      <a class="link-arrow" href="{{ '/work.html' | rel(page.url) }}">All galleries →</a>
+    </div>
+    <div class="feature-grid">
+      {% for g in collections.galleries %}{% if g.data.featured %}
+      <a class="feature" href="{{ g.url | rel(page.url) }}">
+        <img src="{{ g.data.cover | rel(page.url) }}" alt="{{ g.data.title }}" loading="lazy">
+        <span class="feature-meta"><span class="mono">{{ g.data.category }} · {{ g.data.date | year }}</span><strong>{{ g.data.title }}</strong></span>
+      </a>
+      {% endif %}{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-band">
+  <div class="wrap">
+    <h2 class="h2">What I shoot</h2>
+    <ul class="cat-list">
+      {% for c in site.categories %}{% set inCat = collections.galleries | byCategory(c) %}
+      <li><a href="{{ '/work.html' | rel(page.url) }}#{{ c | slugify }}"><span class="cat-name">{{ c }}</span><span class="mono cat-count">{{ inCat.length }} {% if inCat.length == 1 %}gallery{% else %}galleries{% endif %}</span></a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split">
+    <img class="split-img" src="{{ about.portrait | rel(page.url) }}" alt="Kimberly Castillo" loading="lazy">
+    <div class="split-text">
+      <p class="eyebrow mono">About</p>
+      <h2 class="h2">{{ about.heading }}</h2>
+      <p class="lede">{{ about.body | truncate(300) }}</p>
+      <a class="link-arrow" href="{{ '/about.html' | rel(page.url) }}">More about Kim →</a>
+    </div>
+  </div>
+</section>
+
+<section class="section cta-band">
+  <div class="wrap cta-in">
+    <h2 class="marquee marquee-sm">Got a date on the calendar?</h2>
+    <a class="btn btn-gel" href="{{ '/contact.html' | rel(page.url) }}">Check availability</a>
+  </div>
+</section>

@@ -1,0 +1,28 @@
+---
+layout: base.njk
+nav: work
+---
+<section class="page-head">
+  <div class="wrap">
+    <a class="link-arrow back" href="{{ '/work.html' | rel(page.url) }}">← All galleries</a>
+    <p class="eyebrow mono">{{ category }} · {{ date | year }}{% if location %} · {{ location }}{% endif %} · {{ photos.length }} photos</p>
+    <h1 class="marquee marquee-md">{{ title }}</h1>
+    {% if description %}<p class="lede">{{ description }}</p>{% endif %}
+    {% if content | trim %}<div class="prose">{{ content | safe }}</div>{% endif %}
+  </div>
+</section>
+<section class="section section-tight">
+  <div class="wrap">
+    <div class="masonry" data-lightbox>
+      {% for p in photos %}{% set src = p.image if p.image else p %}
+      <button class="shot" data-src="{{ src | rel(page.url) }}" data-caption="{{ p.caption if p.caption else '' }}" aria-label="Open photo {{ loop.index }}">
+        <img src="{{ src | rel(page.url) }}" alt="{{ title }} photo {{ loop.index }}" loading="lazy">
+      </button>
+      {% endfor %}
+    </div>
+    <div class="gallery-foot">
+      <p class="lede">Want a gallery like this?</p>
+      <a class="btn btn-gel" href="{{ '/contact.html' | rel(page.url) }}">Book a shoot</a>
+    </div>
+  </div>
+</section>

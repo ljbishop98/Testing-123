@@ -1,0 +1,110 @@
+# Admin panel (Decap CMS). Kim signs in at yoursite.com/admin with her email + password (Netlify Identity).
+# Every save commits to GitHub and Netlify republishes the site in about a minute.
+backend:
+  name: git-gateway
+  branch: main
+
+publish_mode: simple
+site_url: /
+display_url: /
+logo_url: /assets/admin-logo.svg
+
+media_folder: "src/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: galleries
+    label: Galleries
+    label_singular: Gallery
+    description: "Each gallery is an album on the Work page. Click 'New Gallery' to add one."
+    folder: "src/galleries"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    summary: "{{title}} — {{category}} ({{year}})"
+    sortable_fields: ["date", "title", "category"]
+    view_groups:
+      - label: Category
+        field: category
+    fields:
+      - { label: "Gallery title", name: title, widget: string }
+      - label: Category
+        name: category
+        widget: select
+        options: ["Concerts", "Conferences", "Weddings", "Graduations", "Lifestyle", "Sports", "Real Estate", "BTS & Stills"]
+      - { label: "Shoot date", name: date, widget: datetime, time_format: false, date_format: "MMM D, YYYY", format: "YYYY-MM-DD" }
+      - { label: "Location (optional)", name: location, widget: string, required: false }
+      - { label: "Short description", name: description, widget: string, required: false, hint: "One line shown under the title." }
+      - { label: "Cover photo", name: cover, widget: image, hint: "Shown on the Work page and home page." }
+      - label: Photos
+        name: photos
+        widget: image
+        multiple: true
+        hint: "Select or drag in several photos at once. Drag to reorder. Export for web first (about 2000px on the long edge)."
+      - { label: "Feature on home page", name: featured, widget: boolean, default: false, hint: "The home page shows featured galleries. Three looks best." }
+      - { label: "Sort order", name: order, widget: number, default: 50, value_type: int, hint: "Lower numbers show first on the Work page." }
+
+  - name: pages
+    label: Site pages
+    editor: { preview: false }
+    files:
+      - name: site
+        label: Site settings & HoneyBook
+        file: "src/_data/site.json"
+        fields:
+          - { label: "Business name", name: name, widget: string }
+          - { label: "Your name", name: owner, widget: string }
+          - { label: "Tagline", name: tagline, widget: string }
+          - { label: "Home page intro", name: intro, widget: text }
+          - { label: "Location / travel line", name: location, widget: string }
+          - { label: "Email", name: email, widget: string, required: false }
+          - { label: "Instagram handle (no @)", name: instagram, widget: string, required: false }
+          - { label: "Home page hero photo", name: hero_image, widget: image }
+          - { label: "Hero photo caption", name: hero_caption, widget: string, required: false }
+          - { label: "Categories", name: categories, widget: list, hint: "Shown on the home page. Keep in sync with the gallery category options." }
+          - label: "HoneyBook embed code"
+            name: honeybook_embed
+            widget: code
+            default_language: html
+            output_code_only: true
+            required: false
+            hint: "In HoneyBook: open your contact form → Publish → Copy code. Paste the whole snippet here."
+
+      - name: about
+        label: About page
+        file: "src/_data/about.json"
+        fields:
+          - { label: Heading, name: heading, widget: string }
+          - { label: Portrait, name: portrait, widget: image }
+          - { label: "About text", name: body, widget: text, hint: "Leave a blank line between paragraphs." }
+          - label: Quick facts
+            name: facts
+            widget: list
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Value, name: value, widget: string }
+
+      - name: packages
+        label: Packages & pricing
+        file: "src/_data/packages.json"
+        fields:
+          - { label: Intro, name: intro, widget: text }
+          - label: Package groups
+            name: groups
+            widget: list
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "Group name", name: name, widget: string }
+              - { label: "Note (extras, add-ons)", name: note, widget: string, required: false }
+              - label: Tiers
+                name: tiers
+                widget: list
+                summary: "{{fields.name}} — {{fields.price}}"
+                fields:
+                  - { label: Name, name: name, widget: string }
+                  - { label: Price, name: price, widget: string }
+                  - { label: "Length", name: length, widget: string }
+                  - { label: Highlight this tier, name: featured, widget: boolean, required: false }
+                  - { label: "What's included", name: items, widget: list }

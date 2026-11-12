@@ -1,0 +1,31 @@
+---
+layout: base.njk
+permalink: work.html
+title: Work
+nav: work
+---
+<section class="page-head">
+  <div class="wrap">
+    <p class="eyebrow mono">{{ collections.galleries.length }} galleries</p>
+    <h1 class="marquee marquee-md">The work</h1>
+    <div class="chips" role="group" aria-label="Filter galleries">
+      <button class="chip" data-filter="all" aria-pressed="true">All</button>
+      {% for c in site.categories %}{% if (collections.galleries | byCategory(c)).length %}
+      <button class="chip" data-filter="{{ c | slugify }}" aria-pressed="false">{{ c }}</button>
+      {% endif %}{% endfor %}
+    </div>
+  </div>
+</section>
+<section class="section section-tight">
+  <div class="wrap">
+    <div class="card-grid" id="galleryGrid">
+      {% for g in collections.galleries %}
+      <a class="card" href="{{ g.url | rel(page.url) }}" data-cat="{{ g.data.category | slugify }}">
+        <span class="card-img"><img src="{{ g.data.cover | rel(page.url) }}" alt="{{ g.data.title }}" loading="lazy"></span>
+        <span class="mono card-meta">{{ g.data.category }} · {{ g.data.date | year }} · {{ g.data.photos.length }} photos</span>
+        <strong class="card-title">{{ g.data.title }}</strong>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
