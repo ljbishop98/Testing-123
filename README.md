@@ -19,15 +19,13 @@ The only cost is the domain (about $10–20/year).
 
 ## How Kim uses the admin
 
-- **Galleries → New Gallery**: title, category, date, cover photo, then add photos. Tick "Feature on home page" to show it on the homepage (three looks best). **Publish** → the site updates in about a minute.
+- **Galleries → New Gallery**: title, category, date, cover photo, then drag in several photos at once. Tick "Feature on home page" to show it on the homepage (three looks best). **Publish** → the site updates in about a minute.
 - **Site pages**: About text and portrait, packages and prices, contact details, home hero photo, HoneyBook code.
 - Export photos for web before uploading (about 2000px on the long edge, JPG/WebP). Full-resolution files make the site slow and the repo heavy.
 
 ## Starter content
 
-The eight starter galleries point to photos still hosted on her SmugMug, so the site looks finished on day one. Before cancelling SmugMug, re-upload those photos through the admin (each gallery's Cover and Photos fields), or they will disappear.
-
-Check before launch: the Instagram handle and email in **Site settings**, and the shoot dates on the starter galleries (some are approximate).
+The site ships with placeholder images (`src/images/placeholders/`) and lorem ipsum text. Replace them through the admin: edit or delete the starter galleries, then update About, Packages and Site settings.
 
 ## Run locally (optional)
 

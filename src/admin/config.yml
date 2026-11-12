@@ -40,17 +40,11 @@ collections:
       - { label: "Cover photo", name: cover, widget: image, hint: "Shown on the Work page and home page." }
       - label: Photos
         name: photos
-        widget: list
-        summary: "{{fields.caption}}"
-        add_to_top: false
-        hint: "Add photos in the order you want them shown. Export for web first (about 2000px on the long edge)."
-        fields:
-          - { label: Photo, name: image, widget: image }
-          - { label: "Caption (optional)", name: caption, widget: string, required: false }
+        widget: image
+        multiple: true
+        hint: "Select or drag in several photos at once. Drag to reorder. Export for web first (about 2000px on the long edge)."
       - { label: "Feature on home page", name: featured, widget: boolean, default: false, hint: "The home page shows featured galleries. Three looks best." }
       - { label: "Sort order", name: order, widget: number, default: 50, value_type: int, hint: "Lower numbers show first on the Work page." }
-      - { label: "Hide from site", name: hidden, widget: boolean, default: false, required: false }
-      - { label: "Longer story (optional)", name: body, widget: markdown, required: false }
 
   - name: pages
     label: Site pages

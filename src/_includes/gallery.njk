@@ -14,9 +14,9 @@ nav: work
 <section class="section section-tight">
   <div class="wrap">
     <div class="masonry" data-lightbox>
-      {% for p in photos %}
-      <button class="shot" data-src="{{ p.image | rel(page.url) }}" data-caption="{{ p.caption }}" aria-label="Open photo {{ loop.index }}">
-        <img src="{{ p.image | rel(page.url) }}" alt="{{ p.caption or (title + ' photo ' + loop.index) }}" loading="lazy">
+      {% for p in photos %}{% set src = p.image if p.image else p %}
+      <button class="shot" data-src="{{ src | rel(page.url) }}" data-caption="{{ p.caption if p.caption else '' }}" aria-label="Open photo {{ loop.index }}">
+        <img src="{{ src | rel(page.url) }}" alt="{{ title }} photo {{ loop.index }}" loading="lazy">
       </button>
       {% endfor %}
     </div>
