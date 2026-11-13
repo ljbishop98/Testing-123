@@ -1,31 +1,26 @@
 ---
 layout: base.njk
 permalink: work.html
-title: Work
+title: Galleries
 nav: work
 ---
-<section class="page-head">
-  <div class="wrap">
-    <p class="eyebrow mono">{{ collections.galleries.length }} galleries</p>
-    <h1 class="marquee marquee-md">The work</h1>
-    <div class="chips" role="group" aria-label="Filter galleries">
-      <button class="chip" data-filter="all" aria-pressed="true">All</button>
-      {% for c in site.categories %}{% if (collections.galleries | byCategory(c)).length %}
-      <button class="chip" data-filter="{{ c | slugify }}" aria-pressed="false">{{ c }}</button>
-      {% endif %}{% endfor %}
-    </div>
+<section class="first">
+  <div class="sec-head">
+    <h1 class="h-sec">Galleries</h1>
+    <p class="label">{{ collections.galleries.length }} albums</p>
   </div>
-</section>
-<section class="section section-tight">
-  <div class="wrap">
-    <div class="card-grid" id="galleryGrid">
-      {% for g in collections.galleries %}
-      <a class="card" href="{{ g.url | rel(page.url) }}" data-cat="{{ g.data.category | slugify }}">
-        <span class="card-img"><img src="{{ g.data.cover | rel(page.url) }}" alt="{{ g.data.title }}" loading="lazy"></span>
-        <span class="mono card-meta">{{ g.data.category }} · {{ g.data.date | year }} · {{ g.data.photos.length }} photos</span>
-        <strong class="card-title">{{ g.data.title }}</strong>
-      </a>
-      {% endfor %}
-    </div>
+  <div class="chips" role="group" aria-label="Filter galleries">
+    <button class="chip" data-filter="all" aria-pressed="true">All</button>
+    {% for c in categories %}{% if (collections.galleries | byCategory(c)).length %}
+    <button class="chip" data-filter="{{ c | slugify }}" aria-pressed="false">{{ c }}</button>
+    {% endif %}{% endfor %}
+  </div>
+  <div class="album-grid" id="galleryGrid">
+    {% for g in collections.galleries %}
+    <a class="album" href="{{ g.url | rel(page.url) }}" data-cat="{{ g.data.category | slugify }}">
+      <span class="tile album-img"><img src="{{ g.data.cover | rel(page.url) }}" alt="" loading="lazy"></span>
+      <span class="meta"><span class="label">{{ g.data.category }} &middot; {{ g.data.date | year }}</span><span class="t">{{ g.data.title }}</span><span class="s">{{ g.data.photos.length }} photos</span></span>
+    </a>
+    {% endfor %}
   </div>
 </section>

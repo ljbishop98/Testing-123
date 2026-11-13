@@ -15,12 +15,12 @@ The only cost is the domain (about $10–20/year).
    - **Identity → Invite users** → enter Kim's email
 4. **Kim accepts the invite** — The email link opens the site, she sets a password, and lands in the admin. From then on she logs in at `yoursite.com/admin`.
 5. **Domain** — Buy it (Cloudflare, Porkbun or Namecheap). In Netlify: **Domain management → Add a domain**, then add the DNS records Netlify shows at the registrar. HTTPS turns on automatically.
-6. **HoneyBook** — In HoneyBook, open the contact form → **Publish → Copy code**. In the admin: **Site pages → Site settings & HoneyBook → HoneyBook embed code**, paste, **Publish**. It shows on the Contact page.
+6. **HoneyBook** — In HoneyBook, open the contact form → **Publish → Copy code**. In the admin: **Home page → Cover, contact & HoneyBook**, paste the form link (and optionally the embed code), **Publish**.
 
 ## How Kim uses the admin
 
-- **Galleries → New Gallery**: title, category, date, cover photo, then drag in several photos at once. Tick "Feature on home page" to show it on the homepage (three looks best). **Publish** → the site updates in about a minute.
-- **Site pages**: About text and portrait, packages and prices, contact details, home hero photo, HoneyBook code.
+- **Galleries → New Gallery**: title, category, date, cover photo, then drag in several photos at once. **Publish** and the site updates in about a minute.
+- **Home page**: the cover photo and intro, the "How your day will look" chapters and their photos, starting prices, films, and the HoneyBook link that every Inquire button uses.
 - Export photos for web before uploading (about 2000px on the long edge, JPG/WebP). Full-resolution files make the site slow and the repo heavy.
 
 ## Starter content

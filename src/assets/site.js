@@ -60,3 +60,27 @@ window.addEventListener("load", () => {
     if (!user) id.on("login", () => { document.location.href = "/admin/"; });
   });
 });
+
+// Masthead: size "Knack for Creativity" to fill the page width (from Kim's design)
+(function () {
+  var h = document.getElementById("mega");
+  if (!h) return;
+  var spans = h.querySelectorAll(".l");
+  var narrow = window.matchMedia("(max-width: 860px)");
+  function fit() {
+    var avail = h.parentElement.clientWidth;
+    h.style.fontSize = "100px";
+    var w;
+    if (narrow.matches) {
+      w = 0;
+      spans.forEach(function (s) { w = Math.max(w, s.getBoundingClientRect().width); });
+    } else {
+      var a = spans[0].getBoundingClientRect(), b = spans[spans.length - 1].getBoundingClientRect();
+      w = b.right - a.left;
+    }
+    if (w > 0) h.style.fontSize = (100 * avail / w * 0.995) + "px";
+  }
+  fit();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  window.addEventListener("resize", fit);
+})();

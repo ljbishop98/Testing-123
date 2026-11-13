@@ -1,70 +1,110 @@
 ---
 layout: base.njk
 permalink: index.html
-bodyClass: home
+isHome: true
 ---
-<section class="hero">
-  <div class="wrap hero-in">
-    <div class="hero-text">
-      <p class="eyebrow mono">{{ site.tagline }}</p>
-      <h1 class="marquee">Knack for Creativity</h1>
-      <p class="hero-by">Photography by Kimberly Castillo</p>
-      <p class="hero-intro">{{ site.intro }}</p>
-      <div class="hero-actions">
-        <a class="btn btn-gel" href="{{ '/contact.html' | rel(page.url) }}">Book a shoot</a>
-        <a class="btn btn-ghost" href="{{ '/work.html' | rel(page.url) }}">See the work</a>
+{% set inquire = site.honeybook_link or '#contact' %}
+{% set ext = ' target="_blank" rel="noopener"' if site.honeybook_link else '' %}
+<div id="top" class="cover">
+  <div class="cover-shot"><img src="{{ site.portrait | rel(page.url) }}" alt="{{ site.portrait_alt }}"></div>
+  <div class="lines">
+    <div class="cell who">
+      <p class="label">{{ site.role }}</p>
+      <h1 class="name">{{ site.owner }}</h1>
+    </div>
+    <div class="cell">
+      <p class="statement">{{ site.statement }}</p>
+    </div>
+    <nav class="cell cl" aria-label="In this issue">
+      <a href="#works"><span class="t">{{ home.heading }}</span><span class="s">{% for c in home.chapters %}{{ c.title | replace(" & worship nights", "") }}{% if not loop.last %} &middot; {% endif %}{% endfor %}</span></a>
+      <a href="#pricing"><span class="t">{{ pricing.heading }}</span><span class="s">{{ pricing.label }}</span></a>
+      <a href="{{ '/work.html' | rel(page.url) }}"><span class="t">Galleries</span><span class="s">{{ collections.galleries.length }} albums</span></a>
+    </nav>
+  </div>
+</div>
+
+<section id="works">
+  <div class="sec-head">
+    <h2>{{ home.heading }}</h2>
+    <p class="label">{{ home.label }}</p>
+  </div>
+  {% for ch in home.chapters %}
+  <div class="chapter">
+    <div class="chapter-head"><h3>{{ ch.title }}</h3><p class="label">{{ ch.label }}</p></div>
+    <div class="sheet" data-lightbox>
+      {% for p in ch.photos %}
+      <button class="tile shot {{ loop.index0 | tileSpan(ch.photos.length) }}" data-src="{{ p.image | rel(page.url) }}" data-caption="{{ p.caption }}" aria-label="Open {{ p.caption or ch.title }} photo">
+        <img src="{{ p.image | rel(page.url) }}" alt="{{ ch.title }}{% if p.caption %}, {{ p.caption }}{% endif %}" loading="lazy">
+        <span class="cap"><span class="no">{{ loop.index | roman }}</span>{% if p.caption %}<span class="t">{{ p.caption }}</span>{% endif %}</span>
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+</section>
+
+<section id="pricing">
+  <div class="sec-head">
+    <h2>{{ pricing.heading }}</h2>
+    <p class="label">{{ pricing.label }}</p>
+  </div>
+  <div class="rows">
+    {% for r in pricing.rows %}
+    <div class="row">
+      <div><span class="no">No. {{ loop.index }}</span><h3>{{ r.name }}</h3></div>
+      <p class="d">{{ r.description }}</p>
+      <div class="buy">
+        <div class="price"><small>Starting at</small>{{ r.price }}{% if r.unit %}<span class="unit">{{ r.unit }}</span>{% endif %}</div>
+        <a class="btn{% if not r.primary %} ghost{% endif %}" href="{{ inquire }}"{{ ext | safe }}>{{ r.button or 'Inquire' }}</a>
       </div>
     </div>
-    <figure class="hero-frame">
-      <img src="{{ site.hero_image | rel(page.url) }}" alt="{{ site.hero_caption }}">
-      {% if site.hero_caption %}<figcaption class="hero-cap mono">{{ site.hero_caption }}</figcaption>{% endif %}
-    </figure>
+    {% endfor %}
   </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <div class="section-head">
-      <h2 class="h2">Selected work</h2>
-      <a class="link-arrow" href="{{ '/work.html' | rel(page.url) }}">All galleries →</a>
+  <div class="also">
+    {% for c in pricing.cards %}
+    <div class="card">
+      <span class="label">{{ c.label }}</span>
+      <h3>{{ c.title }}</h3>
+      {% if c.tags.length %}<div class="tags">{% for t in c.tags %}<span>{{ t }}</span>{% endfor %}</div>{% endif %}
+      <p>{{ c.text }}</p>
+      <a class="btn ghost" href="{{ inquire }}"{{ ext | safe }}>Inquire</a>
     </div>
-    <div class="feature-grid">
-      {% for g in collections.galleries %}{% if g.data.featured %}
-      <a class="feature" href="{{ g.url | rel(page.url) }}">
-        <img src="{{ g.data.cover | rel(page.url) }}" alt="{{ g.data.title }}" loading="lazy">
-        <span class="feature-meta"><span class="mono">{{ g.data.category }} · {{ g.data.date | year }}</span><strong>{{ g.data.title }}</strong></span>
-      </a>
-      {% endif %}{% endfor %}
+    {% endfor %}
+  </div>
+</section>
+
+<section id="films">
+  <div class="sec-head">
+    <h2>{{ films.heading }}</h2>
+    <p class="label">{{ films.label }}</p>
+  </div>
+  <div class="films">
+    {% for f in films.films %}
+    <a class="film" {% if f.url %}href="{{ f.url }}" target="_blank" rel="noopener"{% else %}aria-disabled="true"{% endif %}>
+      <div class="tile film-tile">
+        {% if f.thumbnail %}<img src="{{ f.thumbnail | rel(page.url) }}" alt="" loading="lazy">{% else %}<span class="ph">Film coming soon</span>{% endif %}
+        <span class="play" aria-hidden="true"></span>
+      </div>
+      <div class="meta"><span class="label">{{ f.label }}</span><span class="t">{{ f.title }}</span>{% if f.url %}<span class="s">Opens in a new tab</span>{% endif %}</div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact">
+    <h2>{{ site.contact_heading | em | safe }}</h2>
+    <div class="row2">
+      <p>{{ site.contact_text }}</p>
+      {% if site.honeybook_link %}<a class="btn block" href="{{ site.honeybook_link }}" target="_blank" rel="noopener">Start your inquiry</a>{% endif %}
     </div>
-  </div>
-</section>
-
-<section class="section section-band">
-  <div class="wrap">
-    <h2 class="h2">What I shoot</h2>
-    <ul class="cat-list">
-      {% for c in site.categories %}{% set inCat = collections.galleries | byCategory(c) %}
-      <li><a href="{{ '/work.html' | rel(page.url) }}#{{ c | slugify }}"><span class="cat-name">{{ c }}</span><span class="mono cat-count">{{ inCat.length }} {% if inCat.length == 1 %}gallery{% else %}galleries{% endif %}</span></a></li>
-      {% endfor %}
-    </ul>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap split">
-    <img class="split-img" src="{{ about.portrait | rel(page.url) }}" alt="Kimberly Castillo" loading="lazy">
-    <div class="split-text">
-      <p class="eyebrow mono">About</p>
-      <h2 class="h2">{{ about.heading }}</h2>
-      <p class="lede">{{ about.body | truncate(300) }}</p>
-      <a class="link-arrow" href="{{ '/about.html' | rel(page.url) }}">More about Kim →</a>
-    </div>
-  </div>
-</section>
-
-<section class="section cta-band">
-  <div class="wrap cta-in">
-    <h2 class="marquee marquee-sm">Got a date on the calendar?</h2>
-    <a class="btn btn-gel" href="{{ '/contact.html' | rel(page.url) }}">Check availability</a>
+    {% if site.honeybook_embed %}
+      <div class="embed">{{ site.honeybook_embed | safe }}</div>
+    {% elif not site.honeybook_link %}
+      <div class="embed-empty">
+        <p class="label">HoneyBook form goes here</p>
+        <p>In the admin, open <strong>Site settings</strong> and paste either your HoneyBook form link (for the Inquire buttons) or the embed code (to show the form right here).</p>
+      </div>
+    {% endif %}
   </div>
 </section>

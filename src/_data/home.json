@@ -1,0 +1,84 @@
+{
+  "heading": "How your day will look",
+  "label": "Three kinds of day",
+  "chapters": [
+    {
+      "title": "Weddings",
+      "label": "Ceremony to last dance",
+      "photos": [
+        {
+          "image": "https://photos.smugmug.com/Events/Weddings/20220716-Galvez-Wedding/Ceremony/i-sswvKGd/0/L8pS9X6gg6fFddWpPDtdBZmHpC453nXVsLZgx83mV/X3/20220716KC7_5685-X3.jpg",
+          "caption": "Ceremony"
+        },
+        {
+          "image": "https://photos.smugmug.com/Events/Weddings/20220716-Galvez-Wedding/Reception/i-TLZcfdH/0/NCJVXbG6ScXP53mXGQSCjrVc3N6Tjbj5CsfGV9W4q/M/20220716JPM01077-M.jpg",
+          "caption": "Reception"
+        },
+        {
+          "image": "https://photos.smugmug.com/Events/Weddings/20220716-Galvez-Wedding/Reception/i-GjqZLXJ/0/KdXqRRzCW5PTV828dxJ3WcFSTKNR4Csf9tgnDJx5X/M/20220716JPM01087-M.jpg",
+          "caption": ""
+        },
+        {
+          "image": "https://photos.smugmug.com/Events/Weddings/20220716-Galvez-Wedding/Reception/i-Hq2gqwJ/0/KxpfMKW7Vx7LrzkrGjChv5R9gj878sPzfwJbGsCCz/M/20220716JPM01521-2-M.jpg",
+          "caption": ""
+        },
+        {
+          "image": "https://photos.smugmug.com/Events/Proposals/20210417-Erika/i-4rhR5SC/0/KDqBLRrLjdCRVsZn8NffwBQXcp24QTcrnSrH2Fz8M/X3/20210417KC7_5071-X3.jpg",
+          "caption": "Proposal"
+        },
+        {
+          "image": "https://photos.smugmug.com/Events/Proposals/20210417-Erika/i-mvZZXBp/0/Kgz6wXqWzD7dzjxBdrjRThnHLXcXx5NLGnVz4bRdk/XL/20210417KC7_5019-XL.jpg",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "title": "Graduations",
+      "label": "Cap, gown & celebration",
+      "photos": [
+        {
+          "image": "https://photos.smugmug.com/Events/Graduations/20210515-Kevin/i-PRpZf8P/0/LwTjHHsMbXCQ6z2CrPTM4hww6W6Pw5g6tjrDbjJ3D/X3/KC7_7679-X3.jpg",
+          "caption": "Cap & gown"
+        },
+        {
+          "image": "https://photos.smugmug.com/Events/Graduations/20211204/i-sVwX2Xq/2/KWpHSkmk8D88v7Zx3z47RqgMmK3mJjF2QpDK5QbZK/X3/20211204DSC01509-X3.jpg",
+          "caption": "Portraits"
+        },
+        {
+          "image": "https://photos.smugmug.com/Events/Graduations/20210515-Kevin/i-sZVhdZF/1/KNRTs7JNbzrm4NCWrJxt8mCh7cKtZB2CfDbGvtwS9/M/KC7_8025-M.jpg",
+          "caption": ""
+        },
+        {
+          "image": "https://photos.smugmug.com/Events/Graduations/20210515-Kevin/i-qdrQbs8/1/LMcqz5RQNp37qPT5L759PRrNGH9GFN5V8hNWdkc27/M/KC7_8090-M.jpg",
+          "caption": "Celebration"
+        }
+      ]
+    },
+    {
+      "title": "Concerts & worship nights",
+      "label": "Live, low light, in the moment",
+      "photos": [
+        {
+          "image": "https://photos.smugmug.com/Concerts/Concerts/Bethel/20190926-Bethel-Concert/i-KRQSWSS/1/KSGCKrPLDn9qvxW5jn7mz5MG5bk6Xr2f8635WhHdt/X3/CAP19DSC03660-X3.jpg",
+          "caption": "Worship night"
+        },
+        {
+          "image": "https://photos.smugmug.com/Concerts/Concerts/20190720-Tasha-Cobbs/i-vqV3GkF/0/Lp8cSTzbb3nqvQLC92DLmZfHfVQZmQnt6z6WJdSdw/X3/RMNT19-D2D71_8839-X3.jpg",
+          "caption": "Stage"
+        },
+        {
+          "image": "https://photos.smugmug.com/Concerts/Conferences/JGEN/JGEN-23/Day-1/i-LBwnGRt/0/MLJBd47wZHB6v7ZhQ8zrbkt7cR2w3bcfQC84VMBMr/X3/JGEN2023_DayEdit2_KC7_4696-X3.jpg",
+          "caption": "The crowd"
+        },
+        {
+          "image": "https://photos.smugmug.com/Concerts/Concerts/Bethel/20190926-Bethel-Concert/i-rNFBFtP/0/LdrfnDN7dmpvrQ2V8STd3pN7bsjkh4M96dPfZGvJ9/X3/CAP19DSC03540-X3.jpg",
+          "caption": ""
+        },
+        {
+          "image": "https://photos.smugmug.com/Concerts/Conferences/JGEN/JGEN-23/Day-2/i-PLhsSzF/0/KsGMbNv5HS6FnVSnhPNV669BPpv4JpgFXxs5TgZZJ/X3/JGEN2023_Day2Edit2_DSC_3353-X3.jpg",
+          "caption": ""
+        }
+      ]
+    }
+  ]
+}

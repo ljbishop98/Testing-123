@@ -1,0 +1,50 @@
+{
+  "heading": "Starting prices",
+  "label": "Sessions & events",
+  "rows": [
+    {
+      "name": "Weddings",
+      "description": "Five hours of coverage for your ceremony and reception with one photographer. Local to DFW; an outside-area fee applies. Send an inquiry for more info and I'll send you my wedding packages.",
+      "price": "$1,800",
+      "unit": "",
+      "button": "Request packages",
+      "primary": true
+    },
+    {
+      "name": "Graduations",
+      "description": "Cap and gown portraits, family, and the celebration, starting at one hour of coverage.",
+      "price": "$250",
+      "unit": "/ hour",
+      "button": "Book a graduation"
+    },
+    {
+      "name": "Couples, proposals & engagements",
+      "description": "Engagement sessions, proposals, and couple portraits, priced by the hour.",
+      "price": "$250",
+      "unit": "/ hour",
+      "button": "Book a session"
+    }
+  ],
+  "cards": [
+    {
+      "label": "Live events",
+      "title": "Concerts & worship nights",
+      "text": "Every event is different. Use the contact form to tell me about yours and I'll send a quote.",
+      "tags": []
+    },
+    {
+      "label": "Everything else",
+      "title": "Any other event or shoot",
+      "text": "Use the contact form to inquire.",
+      "tags": [
+        "Studio",
+        "Birthday shoots",
+        "Lifestyle",
+        "Business",
+        "Headshots",
+        "Food",
+        "Product"
+      ]
+    }
+  ]
+}

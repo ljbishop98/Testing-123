@@ -1,22 +1,15 @@
 {
   "name": "Knack for Creativity",
   "owner": "Kimberly Castillo",
-  "tagline": "Photographer. Creative. Artist.",
-  "intro": "Concerts, conferences, weddings, graduations and the moments in between. I photograph people so their personality comes through, and I'm always up for travel.",
-  "location": "Available to travel",
+  "strap": "Photography & Creative Direction \u00b7 Dallas, Texas",
+  "role": "Founder, Creative Director & Photographer",
+  "portrait": "/images/kimberly-castillo.jpg",
+  "portrait_alt": "Kimberly Castillo holding a film camera up to her face",
+  "statement": "I'm Kimberly, a photographer and creative based in Dallas, Texas. Through a documentary approach and an editorial eye, I create photographs that preserve life's most meaningful moments, from wedding veils and graduation caps to worship nights and quiet celebrations. Every story deserves to be remembered beautifully.",
+  "contact_heading": "Let's talk about *your* day",
+  "contact_text": "Tell me your date, your venue, and what matters most. I reply to every inquiry personally.",
+  "honeybook_link": "",
+  "honeybook_embed": "",
   "email": "",
-  "instagram": "knackforcreativityphoto",
-  "hero_image": "https://photos.smugmug.com/Events/Weddings/20220716-Galvez-Wedding/Ceremony/i-sswvKGd/0/L8pS9X6gg6fFddWpPDtdBZmHpC453nXVsLZgx83mV/X3/20220716KC7_5685-X3.jpg",
-  "hero_caption": "The Galvez Wedding",
-  "categories": [
-    "Concerts",
-    "Conferences",
-    "Weddings",
-    "Graduations",
-    "Lifestyle",
-    "Sports",
-    "Real Estate",
-    "BTS & Stills"
-  ],
-  "honeybook_embed": ""
+  "instagram": "knackforcreativityphoto"
 }

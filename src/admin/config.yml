@@ -33,7 +33,7 @@ collections:
       - label: Category
         name: category
         widget: select
-        options: ["Concerts", "Conferences", "Weddings", "Graduations", "Lifestyle", "Sports", "Real Estate", "BTS & Stills"]
+        options: ["Weddings", "Graduations", "Concerts", "Conferences", "Lifestyle", "Sports", "Real Estate", "BTS & Stills"]
       - { label: "Shoot date", name: date, widget: datetime, time_format: false, date_format: "MMM D, YYYY", format: "YYYY-MM-DD" }
       - { label: "Location (optional)", name: location, widget: string, required: false }
       - { label: "Short description", name: description, widget: string, required: false, hint: "One line shown under the title." }
@@ -43,68 +43,97 @@ collections:
         widget: image
         multiple: true
         hint: "Select or drag in several photos at once. Drag to reorder. Export for web first (about 2000px on the long edge)."
-      - { label: "Feature on home page", name: featured, widget: boolean, default: false, hint: "The home page shows featured galleries. Three looks best." }
       - { label: "Sort order", name: order, widget: number, default: 50, value_type: int, hint: "Lower numbers show first on the Work page." }
 
   - name: pages
-    label: Site pages
+    label: Home page
     editor: { preview: false }
     files:
       - name: site
-        label: Site settings & HoneyBook
+        label: "Cover, contact & HoneyBook"
         file: "src/_data/site.json"
         fields:
           - { label: "Business name", name: name, widget: string }
           - { label: "Your name", name: owner, widget: string }
-          - { label: "Tagline", name: tagline, widget: string }
-          - { label: "Home page intro", name: intro, widget: text }
-          - { label: "Location / travel line", name: location, widget: string }
-          - { label: "Email", name: email, widget: string, required: false }
-          - { label: "Instagram handle (no @)", name: instagram, widget: string, required: false }
-          - { label: "Home page hero photo", name: hero_image, widget: image }
-          - { label: "Hero photo caption", name: hero_caption, widget: string, required: false }
-          - { label: "Categories", name: categories, widget: list, hint: "Shown on the home page. Keep in sync with the gallery category options." }
-          - label: "HoneyBook embed code"
+          - { label: "Top-left line", name: strap, widget: string, hint: "e.g. Photography & Creative Direction · Dallas, Texas" }
+          - { label: "Title under your name", name: role, widget: string }
+          - { label: "Cover photo", name: portrait, widget: image }
+          - { label: "Cover photo description", name: portrait_alt, widget: string, hint: "Describes the photo for screen readers." }
+          - { label: "Intro paragraph", name: statement, widget: text }
+          - { label: "Contact heading", name: contact_heading, widget: string, hint: "Put *stars* around a word to make it italic." }
+          - { label: "Contact text", name: contact_text, widget: text }
+          - { label: "HoneyBook form link", name: honeybook_link, widget: string, required: false, hint: "In HoneyBook: open your contact form → Publish → copy the direct link. Every Inquire button goes here." }
+          - label: "HoneyBook embed code (optional)"
             name: honeybook_embed
             widget: code
             default_language: html
             output_code_only: true
             required: false
-            hint: "In HoneyBook: open your contact form → Publish → Copy code. Paste the whole snippet here."
+            hint: "To show the form on the page itself: HoneyBook → Publish → Copy code, then paste here."
+          - { label: "Email", name: email, widget: string, required: false }
+          - { label: "Instagram handle (no @)", name: instagram, widget: string, required: false }
 
-      - name: about
-        label: About page
-        file: "src/_data/about.json"
+      - name: home
+        label: "How your day will look"
+        file: "src/_data/home.json"
         fields:
           - { label: Heading, name: heading, widget: string }
-          - { label: Portrait, name: portrait, widget: image }
-          - { label: "About text", name: body, widget: text, hint: "Leave a blank line between paragraphs." }
-          - label: Quick facts
-            name: facts
+          - { label: "Small label", name: label, widget: string }
+          - label: Chapters
+            name: chapters
             widget: list
+            summary: "{{fields.title}}"
             fields:
-              - { label: Label, name: label, widget: string }
-              - { label: Value, name: value, widget: string }
-
-      - name: packages
-        label: Packages & pricing
-        file: "src/_data/packages.json"
-        fields:
-          - { label: Intro, name: intro, widget: text }
-          - label: Package groups
-            name: groups
-            widget: list
-            summary: "{{fields.name}}"
-            fields:
-              - { label: "Group name", name: name, widget: string }
-              - { label: "Note (extras, add-ons)", name: note, widget: string, required: false }
-              - label: Tiers
-                name: tiers
+              - { label: Title, name: title, widget: string }
+              - { label: "Small label", name: label, widget: string }
+              - label: Photos
+                name: photos
                 widget: list
-                summary: "{{fields.name}} — {{fields.price}}"
+                summary: "{{fields.caption}}"
+                hint: "4, 5 or 6 photos fill the layout best."
                 fields:
-                  - { label: Name, name: name, widget: string }
-                  - { label: Price, name: price, widget: string }
-                  - { label: "Length", name: length, widget: string }
-                  - { label: Highlight this tier, name: featured, widget: boolean, required: false }
-                  - { label: "What's included", name: items, widget: list }
+                  - { label: Photo, name: image, widget: image }
+                  - { label: "Caption (optional)", name: caption, widget: string, required: false }
+
+      - name: pricing
+        label: "Starting prices"
+        file: "src/_data/pricing.json"
+        fields:
+          - { label: Heading, name: heading, widget: string }
+          - { label: "Small label", name: label, widget: string }
+          - label: "Price rows"
+            name: rows
+            widget: list
+            summary: "{{fields.name}} — {{fields.price}}"
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: Description, name: description, widget: text }
+              - { label: "Starting price", name: price, widget: string }
+              - { label: "Unit (optional)", name: unit, widget: string, required: false, hint: "e.g. / hour" }
+              - { label: "Button text", name: button, widget: string }
+              - { label: "Solid button", name: primary, widget: boolean, required: false }
+          - label: "Inquiry cards"
+            name: cards
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Small label", name: label, widget: string }
+              - { label: Title, name: title, widget: string }
+              - { label: Text, name: text, widget: text }
+              - { label: Tags, name: tags, widget: list, required: false }
+
+      - name: films
+        label: Films
+        file: "src/_data/films.json"
+        fields:
+          - { label: Heading, name: heading, widget: string }
+          - { label: "Small label", name: label, widget: string }
+          - label: Films
+            name: films
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: Title, name: title, widget: string }
+              - { label: "Small label", name: label, widget: string }
+              - { label: "Video link (Vimeo or YouTube)", name: url, widget: string, required: false }
+              - { label: "Thumbnail", name: thumbnail, widget: image, required: false }

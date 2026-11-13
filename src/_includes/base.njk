@@ -3,55 +3,55 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>{% if title %}{{ title }} · {% endif %}{{ site.name }} Photo</title>
-  <meta name="description" content="{{ description or site.intro }}">
-  <meta property="og:title" content="{% if title %}{{ title }} · {% endif %}{{ site.name }} Photo">
-  <meta property="og:image" content="{{ cover or site.hero_image }}">
+  <title>{% if title %}{{ title }} · {% endif %}{{ site.name }}</title>
+  <meta name="description" content="{{ description or site.statement | truncate(155) }}">
+  <meta property="og:title" content="{% if title %}{{ title }} · {% endif %}{{ site.name }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600&family=Figtree:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Jost:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="{{ '/assets/style.css' | rel(page.url) }}">
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" defer></script>
 </head>
 <body class="{{ bodyClass }}">
+  {% set homeUrl = '/index.html' | rel(page.url) %}
+  {% set inquire = site.honeybook_link or (homeUrl + '#contact') %}
   <a class="skip" href="#main">Skip to content</a>
-  <header class="topbar">
-    <div class="wrap topbar-in">
-      <a class="mark" href="{{ '/index.html' | rel(page.url) }}" aria-label="{{ site.name }} home">
-        <span class="mark-k">K</span><span class="mark-text">Knack for Creativity<small>Kimberly Castillo</small></span>
-      </a>
-      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav">Menu</button>
-      <nav id="nav" class="nav">
-        {% set links = [["Work","/work.html","work"],["About","/about.html","about"],["Packages","/packages.html","packages"]] %}
-        {% for l in links %}<a href="{{ l[1] | rel(page.url) }}"{% if nav == l[2] %} aria-current="page"{% endif %}>{{ l[0] }}</a>{% endfor %}
-        <a class="nav-cta" href="{{ '/contact.html' | rel(page.url) }}"{% if nav == 'contact' %} aria-current="page"{% endif %}>Book a shoot</a>
+  <div class="wrap">
+    <div class="strip">
+      <span class="label">{{ site.strap }}</span>
+      <nav class="nav" aria-label="Sections">
+        <a href="{{ homeUrl }}#top">Info</a>
+        <a href="{{ homeUrl }}#works">Your day</a>
+        <a href="{{ homeUrl }}#pricing">Pricing</a>
+        <a href="{{ homeUrl }}#films">Films</a>
+        <a href="{{ '/work.html' | rel(page.url) }}"{% if nav == 'work' %} aria-current="page"{% endif %}>Galleries</a>
+        <a class="inq" href="{{ inquire }}"{% if site.honeybook_link %} target="_blank" rel="noopener"{% endif %}>Inquire</a>
       </nav>
     </div>
-  </header>
 
-  <main id="main">
-    {{ content | safe }}
-  </main>
+    <header class="mast{% if not isHome %} mast-sm{% endif %}">
+      <a href="{{ homeUrl }}" class="mast-link" aria-label="{{ site.name }} home"><p id="mega" class="mega"><span class="l">Knack for</span> <span class="l">Creativity</span></p></a>
+    </header>
 
-  <footer class="footer">
-    <div class="wrap footer-in">
-      <div>
-        <p class="footer-name">Knack for Creativity</p>
-        <p class="muted">{{ site.tagline }} {{ site.location }}.</p>
-      </div>
-      <div class="footer-links">
-        {% if site.instagram %}<a href="https://instagram.com/{{ site.instagram }}" target="_blank" rel="noopener">Instagram @{{ site.instagram }}</a>{% endif %}
+    <main id="main">
+      {{ content | safe }}
+    </main>
+
+    <footer class="foot">
+      <span>&copy; {{ "now" | year }} {{ site.owner }} &middot; {{ site.name }}</span>
+      <span class="foot-r">
+        {% if site.instagram %}<a href="https://instagram.com/{{ site.instagram }}" target="_blank" rel="noopener">Instagram</a>{% endif %}
         {% if site.email %}<a href="mailto:{{ site.email }}">{{ site.email }}</a>{% endif %}
-        <a href="{{ '/contact.html' | rel(page.url) }}">Inquire</a>
-      </div>
-      <p class="footer-fine mono">© {{ "now" | year }} Kimberly Castillo · <a href="/admin/">Admin</a></p>
-    </div>
-  </footer>
+        <span>Inquiries through HoneyBook</span>
+        <a href="/admin/">Admin</a>
+      </span>
+    </footer>
+  </div>
 
   <div class="lightbox" id="lightbox" hidden>
-    <button class="lb-close" id="lbClose" aria-label="Close">Close</button>
+    <button class="lb-close" id="lbClose">Close</button>
     <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous photo">‹</button>
-    <figure><img id="lbImg" alt=""><figcaption id="lbCap" class="mono"></figcaption></figure>
+    <figure><img id="lbImg" alt=""><figcaption id="lbCap" class="label"></figcaption></figure>
     <button class="lb-nav lb-next" id="lbNext" aria-label="Next photo">›</button>
   </div>
 

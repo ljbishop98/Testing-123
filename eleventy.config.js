@@ -21,6 +21,24 @@ export default function (eleventyConfig) {
     return String(date.getUTCFullYear());
   });
 
+  // *word* in admin text becomes italic, as in Kim's "Let's talk about *your* day"
+  eleventyConfig.addFilter("em", (t) =>
+    String(t || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\*(.+?)\*/g, "<em>$1</em>"));
+
+  eleventyConfig.addFilter("roman", (n) =>
+    ["I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII"][n - 1] || String(n));
+
+  // Contact-sheet tile sizes, following Kim's layouts for 4, 5 and 6 photos
+  eleventyConfig.addFilter("tileSpan", (i, count) => {
+    const layouts = {
+      4: ["h2", "w2", "h2", "w2"],
+      5: ["w2 h2", "", "", "", ""],
+      6: ["w2 h2", "h2", "", "", "w2", "w2"],
+    };
+    const l = layouts[count] || layouts[6];
+    return l[i % l.length];
+  });
+
   eleventyConfig.addFilter("byCategory", (items, cat) => items.filter((g) => g.data.category === cat));
 
   eleventyConfig.addCollection("galleries", (api) =>
