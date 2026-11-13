@@ -3,8 +3,8 @@ layout: base.njk
 permalink: index.html
 isHome: true
 ---
-{% set inquire = site.honeybook_link or '#contact' %}
-{% set ext = ' target="_blank" rel="noopener"' if site.honeybook_link else '' %}
+{% set inquire = contact.honeybook_link or '#contact' %}
+{% set ext = ' target="_blank" rel="noopener"' if contact.honeybook_link else '' %}
 <div id="top" class="cover">
   <div class="cover-shot"><img src="{{ site.portrait | rel(page.url) }}" alt="{{ site.portrait_alt }}"></div>
   <div class="lines">
@@ -16,9 +16,9 @@ isHome: true
       <p class="statement">{{ site.statement }}</p>
     </div>
     <nav class="cell cl" aria-label="In this issue">
-      <a href="#works"><span class="t">{{ home.heading }}</span><span class="s">{% for c in home.chapters %}{{ c.title | replace(" & worship nights", "") }}{% if not loop.last %} &middot; {% endif %}{% endfor %}</span></a>
-      <a href="#pricing"><span class="t">{{ pricing.heading }}</span><span class="s">{{ pricing.label }}</span></a>
-      <a href="#galleries"><span class="t">Galleries</span><span class="s">{{ collections.galleries.length }} albums</span></a>
+      <a href="#works"><span class="t">{{ home.heading }}</span><span class="s">{% for c in home.chapters %}{{ c.title | replace(" & worship nights", "") }}{% if not loop.last %} &middot; {% endif %}{% endfor %}</span><span class="arr" aria-hidden="true">&rarr;</span></a>
+      <a href="#pricing"><span class="t">{{ pricing.heading }}</span><span class="s">{{ pricing.label }}</span><span class="arr" aria-hidden="true">&rarr;</span></a>
+      <a href="#galleries"><span class="t">Galleries</span><span class="s">{{ collections.galleries.length }} albums</span><span class="arr" aria-hidden="true">&rarr;</span></a>
     </nav>
   </div>
 </div>
@@ -28,16 +28,16 @@ isHome: true
     <h2>{{ home.heading }}</h2>
     <p class="label">{{ home.label }}</p>
   </div>
-  <div class="tabs" role="tablist" aria-label="Kinds of day" hidden>
-    {% for ch in home.chapters %}<button class="tab" role="tab" id="tab-{{ loop.index }}" aria-controls="ch-{{ loop.index }}" aria-selected="{{ 'true' if loop.first else 'false' }}">{{ ch.title }}</button>{% endfor %}
+  <div class="tabs" role="tablist" aria-label="Kinds of day" style="--n: {{ home.chapters.length }}" hidden>
+    {% for ch in home.chapters %}<button class="tab" role="tab" id="tab-{{ loop.index }}" aria-controls="ch-{{ loop.index }}" aria-selected="{{ 'true' if loop.first else 'false' }}"><span class="tab-no">{{ loop.index | roman }}</span><span class="tab-t">{{ ch.title }}</span><span class="tab-s">{{ ch.label }}</span></button>{% endfor %}
   </div>
   {% for ch in home.chapters %}
   <div class="chapter" id="ch-{{ loop.index }}" role="tabpanel" aria-labelledby="tab-{{ loop.index }}">
     <div class="chapter-head"><h3>{{ ch.title }}</h3><p class="label">{{ ch.label }}</p></div>
     <div class="sheet" data-lightbox>
       {% for p in ch.photos %}
-      <button class="tile shot {{ loop.index0 | tileSpan(ch.photos.length) }}" data-src="{{ p.image | rel(page.url) }}" data-caption="{{ p.caption }}" aria-label="Open {{ p.caption or ch.title }} photo">
-        <img src="{{ p.image | rel(page.url) }}" alt="{{ ch.title }}{% if p.caption %}, {{ p.caption }}{% endif %}" loading="lazy">
+      <button class="tile shot" data-src="{{ p.image | rel(page.url) }}" data-caption="{{ p.caption }}" aria-label="Open {{ p.caption or ch.title }} photo">
+        <img src="{{ p.image | rel(page.url) }}" {{ p.image | dims | safe }} alt="{{ ch.title }}{% if p.caption %}, {{ p.caption }}{% endif %}" loading="lazy">
         <span class="cap"><span class="no">{{ loop.index | roman }}</span>{% if p.caption %}<span class="t">{{ p.caption }}</span>{% endif %}</span>
       </button>
       {% endfor %}
@@ -52,8 +52,8 @@ isHome: true
     <a class="label sec-link" href="{{ '/work.html' | rel(page.url) }}">All {{ collections.galleries.length }} albums &rarr;</a>
   </div>
   <div class="album-grid album-teaser">
-    {% for g in collections.galleries | head(3) %}
-    <a class="album" href="{{ g.url | rel(page.url) }}">
+    {% for g in collections.galleries | homeGalleries %}
+    <a class="album reveal" href="{{ g.url | rel(page.url) }}">
       <span class="tile album-img"><img src="{{ g.data.cover | rel(page.url) }}" alt="" loading="lazy"></span>
       <span class="meta"><span class="label">{{ g.data.category }}</span><span class="t">{{ g.data.title }}</span></span>
     </a>
@@ -68,7 +68,7 @@ isHome: true
   </div>
   <div class="rows">
     {% for r in pricing.rows %}
-    <div class="row">
+    <div class="row reveal">
       <div><span class="no">No. {{ loop.index }}</span><h3>{{ r.name }}</h3></div>
       <p class="d">{{ r.description }}</p>
       <div class="buy">
@@ -88,6 +88,50 @@ isHome: true
       <a class="btn ghost" href="{{ inquire }}"{{ ext | safe }}>Inquire</a>
     </div>
     {% endfor %}
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="sec-head">
+    <h2>{{ reviews.heading }}</h2>
+    <p class="label">{{ reviews.label }}</p>
+  </div>
+  {% set shown = reviews.reviews | selectattr("show") %}
+  {% if shown.length %}
+  <div class="quotes">
+    {% for r in shown %}
+    <figure class="quote reveal">
+      <blockquote>{{ r.quote }}</blockquote>
+      <figcaption><span class="q-name">{{ r.name }}</span>{% if r.occasion %}<span class="label">{{ r.occasion }}</span>{% endif %}</figcaption>
+    </figure>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="review-box{% if shown.length %} review-box-after{% endif %}">
+    <div class="review-intro">
+      <h3>{{ reviews.form_heading }}</h3>
+      <p>{{ reviews.form_text }}</p>
+    </div>
+    <form class="review-form" name="review" method="POST" action="{{ '/thanks.html' | rel(page.url) }}" data-netlify="true" netlify-honeypot="company">
+      <input type="hidden" name="form-name" value="review">
+      <p class="hp"><label>Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label></p>
+      <div class="f-row">
+        <label class="f"><span class="label">Your name</span><input id="rv-name" name="name" required autocomplete="name"></label>
+        <label class="f"><span class="label">Email (stays private)</span><input id="rv-email" name="email" type="email" required autocomplete="email"></label>
+      </div>
+      <label class="f"><span class="label">What did we shoot?</span>
+        <select id="rv-type" name="occasion" required>
+          <option value="">Choose one</option>
+          {% for c in categories %}<option>{{ c }}</option>{% endfor %}
+          <option>Something else</option>
+        </select>
+      </label>
+      <label class="f"><span class="label">Your review</span><textarea id="rv-text" name="review" rows="5" required></textarea></label>
+      <label class="check"><input id="rv-ok" type="checkbox" name="ok_to_share" value="yes"> <span>It's okay to share my review and first name on this site.</span></label>
+      <button class="btn" type="submit">Send review</button>
+      <p class="form-msg" role="status" hidden></p>
+    </form>
   </div>
 </section>
 
@@ -115,17 +159,17 @@ isHome: true
 
 <section id="contact">
   <div class="contact">
-    <h2>{{ site.contact_heading | em | safe }}</h2>
+    <h2>{{ contact.contact_heading | em | safe }}</h2>
     <div class="row2">
-      <p>{{ site.contact_text }}</p>
-      {% if site.honeybook_link %}<a class="btn block" href="{{ site.honeybook_link }}" target="_blank" rel="noopener">Start your inquiry</a>{% endif %}
+      <p>{{ contact.contact_text }}</p>
+      {% if contact.honeybook_link %}<a class="btn block" href="{{ contact.honeybook_link }}" target="_blank" rel="noopener">Start your inquiry</a>{% endif %}
     </div>
-    {% if site.honeybook_embed %}
-      <div class="embed">{{ site.honeybook_embed | safe }}</div>
-    {% elif not site.honeybook_link %}
+    {% if contact.honeybook_embed %}
+      <div class="embed">{{ contact.honeybook_embed | safe }}</div>
+    {% elif not contact.honeybook_link %}
       <div class="contact-fallback">
-        {% if site.email %}<a class="btn" href="mailto:{{ site.email }}">Email me</a>{% endif %}
-        {% if site.instagram %}<a class="btn ghost" href="https://instagram.com/{{ site.instagram }}" target="_blank" rel="noopener">Message @{{ site.instagram }}</a>{% endif %}
+        {% if contact.email %}<a class="btn" href="mailto:{{ contact.email }}">Email me</a>{% endif %}
+        {% if contact.instagram %}<a class="btn ghost" href="https://instagram.com/{{ contact.instagram }}" target="_blank" rel="noopener">Message @{{ contact.instagram }}</a>{% endif %}
       </div>
     {% endif %}
   </div>

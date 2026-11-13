@@ -14,7 +14,7 @@
 </head>
 <body class="{{ bodyClass }}">
   {% set homeUrl = '/index.html' | rel(page.url) %}
-  {% set inquire = site.honeybook_link or (homeUrl + '#contact') %}
+  {% set inquire = contact.honeybook_link or (homeUrl + '#contact') %}
   <a class="skip" href="#main">Skip to content</a>
   <div class="wrap">
     <div class="strip">
@@ -25,7 +25,7 @@
         <a href="{{ '/work.html' | rel(page.url) }}"{% if nav == 'work' %} aria-current="page"{% endif %}>Galleries</a>
         <a href="{{ homeUrl }}#pricing">Pricing</a>
         {% if (films.films | selectattr("url")).length %}<a href="{{ homeUrl }}#films">Films</a>{% endif %}
-        <a class="inq" href="{{ inquire }}"{% if site.honeybook_link %} target="_blank" rel="noopener"{% endif %}>Inquire</a>
+        <a class="inq" href="{{ inquire }}"{% if contact.honeybook_link %} target="_blank" rel="noopener"{% endif %}>Inquire</a>
       </nav>
     </div>
 
@@ -40,8 +40,8 @@
     <footer class="foot">
       <span>&copy; {{ "now" | year }} {{ site.owner }} &middot; {{ site.name }}</span>
       <span class="foot-r">
-        {% if site.instagram %}<a href="https://instagram.com/{{ site.instagram }}" target="_blank" rel="noopener">Instagram</a>{% endif %}
-        {% if site.email %}<a href="mailto:{{ site.email }}">{{ site.email }}</a>{% endif %}
+        {% if contact.instagram %}<a href="https://instagram.com/{{ contact.instagram }}" target="_blank" rel="noopener">Instagram</a>{% endif %}
+        {% if contact.email %}<a href="mailto:{{ contact.email }}">{{ contact.email }}</a>{% endif %}
         <span>Inquiries through HoneyBook</span>
         <a href="/admin/">Admin</a>
       </span>

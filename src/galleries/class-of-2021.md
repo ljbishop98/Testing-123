@@ -5,7 +5,6 @@ date: 2021-12-04
 description: "Caps, gowns and confetti."
 cover: "https://photos.smugmug.com/Events/Graduations/20211204/i-sVwX2Xq/2/KWpHSkmk8D88v7Zx3z47RqgMmK3mJjF2QpDK5QbZK/X3/20211204DSC01509-X3.jpg"
 featured: false
-order: 4
 photos:
   - "https://photos.smugmug.com/Events/Graduations/20211204/i-sVwX2Xq/2/KWpHSkmk8D88v7Zx3z47RqgMmK3mJjF2QpDK5QbZK/X3/20211204DSC01509-X3.jpg"
   - "https://photos.smugmug.com/Events/Graduations/20210515-Kevin/i-PRpZf8P/0/LwTjHHsMbXCQ6z2CrPTM4hww6W6Pw5g6tjrDbjJ3D/X3/KC7_7679-X3.jpg"

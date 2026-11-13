@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "eleventy",
-    "start": "eleventy --serve"
+    "start": "eleventy --serve",
+    "admin": "npx decap-server & eleventy --serve"
   },
   "keywords": [],
   "author": "",
@@ -14,5 +15,8 @@
   "devDependencies": {
     "@11ty/eleventy": "^3.1.8"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "image-size": "^2.1.0"
+  }
 }

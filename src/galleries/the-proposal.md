@@ -5,7 +5,6 @@ date: 2021-04-17
 description: "She said yes."
 cover: "https://photos.smugmug.com/Events/Proposals/20210417-Erika/i-4rhR5SC/0/KDqBLRrLjdCRVsZn8NffwBQXcp24QTcrnSrH2Fz8M/X3/20210417KC7_5071-X3.jpg"
 featured: false
-order: 5
 photos:
   - "https://photos.smugmug.com/Events/Proposals/20210417-Erika/i-4rhR5SC/0/KDqBLRrLjdCRVsZn8NffwBQXcp24QTcrnSrH2Fz8M/X3/20210417KC7_5071-X3.jpg"
   - "https://photos.smugmug.com/Events/Proposals/20210417-Erika/i-mvZZXBp/0/Kgz6wXqWzD7dzjxBdrjRThnHLXcXx5NLGnVz4bRdk/XL/20210417KC7_5019-XL.jpg"

@@ -5,7 +5,6 @@ date: 2022-05-18
 description: "Matchday on the sideline."
 cover: "https://photos.smugmug.com/Sports/Miami-FC/20220518/i-x7pzcr5/0/LJhq97K5SxjgxwzQrhfjCkmvrg3zQZxfwnNLVTZB5/X3/KCPhoto-6792-X3.jpg"
 featured: false
-order: 6
 photos:
   - "https://photos.smugmug.com/Sports/Miami-FC/20220518/i-x7pzcr5/0/LJhq97K5SxjgxwzQrhfjCkmvrg3zQZxfwnNLVTZB5/X3/KCPhoto-6792-X3.jpg"
   - "https://photos.smugmug.com/Sports/Miami-FC/20220518/i-B8PK2pZ/0/NTwHnwh2ff8mG2GM6555JNH6NcnKRv3vvQxqQ35PJ/XL/KCPhoto-6165-XL.jpg"

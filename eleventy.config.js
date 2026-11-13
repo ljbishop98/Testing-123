@@ -1,3 +1,6 @@
+import { imageSize as sizeOf } from "image-size";
+import { readFile } from "node:fs/promises";
+
 // Eleventy config — builds src/ into _site/ (Netlify runs this on every save from /admin).
 export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets");
@@ -13,6 +16,28 @@ export default function (eleventyConfig) {
     const clean = String(target).replace(/^\//, "");
     const depth = (pageUrl || "/").split("/").length - 2;
     return (depth > 0 ? "../".repeat(depth) : "") + clean;
+  });
+
+  // width/height for a photo, so the browser saves its space before it loads (no jumping while scrolling).
+  // Works for uploaded photos and remote ones; if a size can't be read, the photo still shows normally.
+  const dimsCache = new Map();
+  eleventyConfig.addAsyncFilter("dims", async (src) => {
+    if (!src) return "";
+    if (dimsCache.has(src)) return dimsCache.get(src);
+    let out = "";
+    try {
+      let buf;
+      if (/^https?:/.test(src)) {
+        const res = await fetch(src, { headers: { Range: "bytes=0-131071" }, signal: AbortSignal.timeout(8000) });
+        buf = Buffer.from(await res.arrayBuffer());
+      } else {
+        buf = await readFile("src/" + String(src).replace(/^\//, ""));
+      }
+      const d = sizeOf(buf);
+      if (d && d.width && d.height) out = `width="${d.width}" height="${d.height}"`;
+    } catch (e) { /* leave it to the browser */ }
+    dimsCache.set(src, out);
+    return out;
   });
 
   eleventyConfig.addFilter("year", (d) => {
@@ -40,6 +65,11 @@ export default function (eleventyConfig) {
   });
 
   eleventyConfig.addFilter("head", (arr, n) => (arr || []).slice(0, n));
+  // Home page: galleries she switched on, newest first; falls back to the newest three
+  eleventyConfig.addFilter("homeGalleries", (arr) => {
+    const picked = (arr || []).filter((g) => g.data.featured);
+    return (picked.length ? picked : arr || []).slice(0, 3);
+  });
 
   eleventyConfig.addFilter("byCategory", (items, cat) => items.filter((g) => g.data.category === cat));
 
@@ -47,7 +77,7 @@ export default function (eleventyConfig) {
     api
       .getFilteredByGlob("src/galleries/*.md")
       .filter((g) => !g.data.hidden)
-      .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99) || new Date(b.data.date) - new Date(a.data.date))
+      .sort((a, b) => new Date(b.data.date) - new Date(a.data.date))
   );
 
   return {

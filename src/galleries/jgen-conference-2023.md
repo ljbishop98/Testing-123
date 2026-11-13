@@ -5,7 +5,6 @@ date: 2023-01-01
 description: "Two days of main sessions and crowd moments."
 cover: "https://photos.smugmug.com/Concerts/Conferences/JGEN/JGEN-23/Day-1/i-LBwnGRt/0/MLJBd47wZHB6v7ZhQ8zrbkt7cR2w3bcfQC84VMBMr/X3/JGEN2023_DayEdit2_KC7_4696-X3.jpg"
 featured: true
-order: 2
 photos:
   - "https://photos.smugmug.com/Concerts/Conferences/JGEN/JGEN-23/Day-1/i-LBwnGRt/0/MLJBd47wZHB6v7ZhQ8zrbkt7cR2w3bcfQC84VMBMr/X3/JGEN2023_DayEdit2_KC7_4696-X3.jpg"
   - "https://photos.smugmug.com/Concerts/Conferences/JGEN/JGEN-23/Day-2/i-PLhsSzF/0/KsGMbNv5HS6FnVSnhPNV669BPpv4JpgFXxs5TgZZJ/X3/JGEN2023_Day2Edit2_DSC_3353-X3.jpg"

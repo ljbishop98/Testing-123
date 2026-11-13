@@ -13,17 +13,17 @@ nav: work
   <div class="masonry" data-lightbox>
     {% for p in photos %}{% set src = p.image if p.image else p %}
     <button class="shot" data-src="{{ src | rel(page.url) }}" data-caption="" aria-label="Open photo {{ loop.index }}">
-      <img src="{{ src | rel(page.url) }}" alt="{{ title }} photo {{ loop.index }}" loading="lazy">
+      <img src="{{ src | rel(page.url) }}" {{ src | dims | safe }} alt="{{ title }} photo {{ loop.index }}" loading="lazy">
     </button>
     {% endfor %}
   </div>
 </section>
 <section id="contact">
   <div class="contact">
-    <h2>{{ site.contact_heading | em | safe }}</h2>
+    <h2>{{ contact.contact_heading | em | safe }}</h2>
     <div class="row2">
-      <p>{{ site.contact_text }}</p>
-      <a class="btn block" href="{{ site.honeybook_link or ('/index.html#contact' | rel(page.url)) }}"{% if site.honeybook_link %} target="_blank" rel="noopener"{% endif %}>Start your inquiry</a>
+      <p>{{ contact.contact_text }}</p>
+      <a class="btn block" href="{{ contact.honeybook_link or ('/index.html#contact' | rel(page.url)) }}"{% if contact.honeybook_link %} target="_blank" rel="noopener"{% endif %}>Start your inquiry</a>
     </div>
   </div>
 </section>

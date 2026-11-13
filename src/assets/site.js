@@ -10,7 +10,7 @@ if (menuBtn && nav) {
 
 // Work page category filter (also reads #category from the URL)
 const chips = document.querySelectorAll(".chip");
-const cards = document.querySelectorAll("#galleryGrid .card");
+const cards = document.querySelectorAll("#galleryGrid .album");
 function applyFilter(cat) {
   chips.forEach((c) => c.setAttribute("aria-pressed", String(c.dataset.filter === cat)));
   cards.forEach((card) => { card.hidden = cat !== "all" && card.dataset.cat !== cat; });
@@ -97,6 +97,7 @@ window.addEventListener("load", () => {
       t.tabIndex = n === i ? 0 : -1;
       panels[n].hidden = n !== i;
     });
+    panels[i].classList.remove("enter"); void panels[i].offsetWidth; panels[i].classList.add("enter");
     if (focus) tabs[i].focus();
   }
   bar.hidden = false;
@@ -109,4 +110,121 @@ window.addEventListener("load", () => {
     });
   });
   select(0);
+})();
+
+// Gentle motion: reveal on scroll + slight cover-photo parallax (skipped when the visitor prefers reduced motion)
+(function () {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
+  // photos fade in when they've actually loaded, so nothing pops in half-drawn
+  document.documentElement.classList.add("motion");
+  document.querySelectorAll(".tile img, .masonry img").forEach(function (im) {
+    if (im.complete && im.naturalWidth) im.classList.add("loaded");
+    else {
+      im.addEventListener("load", function () { im.classList.add("loaded"); }, { once: true });
+      im.addEventListener("error", function () { im.classList.add("loaded"); }, { once: true });
+    }
+  });
+  var items = document.querySelectorAll(".reveal");
+  if (items.length) {
+    document.documentElement.classList.add("motion");
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    items.forEach(function (el) { io.observe(el); });
+  }
+  var img = document.querySelector(".cover-shot img");
+  if (img && window.matchMedia("(min-width: 861px)").matches) {
+    img.style.transform = "scale(1.08)";
+    var ticking = false;
+    window.addEventListener("scroll", function () {
+      if (ticking) return; ticking = true;
+      requestAnimationFrame(function () {
+        var y = Math.min(window.scrollY, 900);
+        img.style.transform = "translateY(" + (y * 0.08) + "px) scale(1.08)";
+        ticking = false;
+      });
+    }, { passive: true });
+  }
+})();
+
+// Sticky nav: soft shadow once you scroll, and underline the section you're in
+(function () {
+  var strip = document.querySelector(".strip");
+  if (!strip) return;
+  var onScroll = function () { strip.classList.toggle("stuck", window.scrollY > 8); };
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  if (!("IntersectionObserver" in window)) return;
+  var links = {};
+  strip.querySelectorAll('.nav a[href*="#"]').forEach(function (a) { links[a.getAttribute("href").split("#")[1]] = a; });
+  var spy = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var a = links[e.target.id];
+      if (!a || !e.isIntersecting) return;
+      Object.keys(links).forEach(function (k) { links[k].removeAttribute("aria-current"); });
+      a.setAttribute("aria-current", "location");
+    });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  Object.keys(links).forEach(function (id) { var el = document.getElementById(id); if (el) spy.observe(el); });
+})();
+
+// Smooth, eased scrolling for links to sections on the same page (slower and softer than the browser default)
+(function () {
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var ease = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }; // ease-in-out
+  var running = null;
+  function scrollToEl(el) {
+    var margin = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+    var target = Math.max(0, el.getBoundingClientRect().top + window.scrollY - margin);
+    if (reduce) { window.scrollTo(0, target); return; }
+    var start = window.scrollY, dist = target - start;
+    var duration = Math.min(1400, Math.max(650, Math.abs(dist) * 0.45));
+    var t0 = null;
+    if (running) cancelAnimationFrame(running);
+    var stop = function () { if (running) { cancelAnimationFrame(running); running = null; } };
+    window.addEventListener("wheel", stop, { once: true, passive: true });
+    window.addEventListener("touchstart", stop, { once: true, passive: true });
+    (function step(ts) {
+      if (t0 === null) t0 = ts;
+      var p = Math.min(1, (ts - t0) / duration);
+      window.scrollTo(0, start + dist * ease(p));
+      if (p < 1) running = requestAnimationFrame(step); else running = null;
+    })(performance.now());
+  }
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest("a[href*='#']");
+    if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    var url = new URL(a.href, location.href);
+    if (url.pathname !== location.pathname || !url.hash) return;
+    var el = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+    if (!el) return;
+    e.preventDefault();
+    history.pushState(null, "", url.hash);
+    scrollToEl(el);
+  });
+})();
+
+// Review form: send in the background and thank them in place (falls back to the thank-you page)
+(function () {
+  var form = document.querySelector(".review-form");
+  if (!form || !window.fetch) return;
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var btn = form.querySelector("button[type=submit]");
+    var msg = form.querySelector(".form-msg");
+    btn.disabled = true; btn.textContent = "Sending…";
+    var body = new URLSearchParams(new FormData(form)).toString();
+    fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body })
+      .then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        form.querySelectorAll(".f, .f-row, .check, button").forEach(function (el) { el.hidden = true; });
+        msg.textContent = "Thank you! Your review is on its way to Kimberly.";
+        msg.hidden = false;
+      })
+      .catch(function () {
+        btn.disabled = false; btn.textContent = "Send review";
+        msg.textContent = "That didn't send. Please check your connection and try again.";
+        msg.hidden = false;
+      });
+  });
 })();

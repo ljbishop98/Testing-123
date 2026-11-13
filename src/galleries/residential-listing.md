@@ -5,7 +5,6 @@ date: 2023-01-27
 description: "Bright, true-to-life interiors."
 cover: "https://photos.smugmug.com/photos/i-sBHbqL7/2/NfQ2cgsKWWJ5tNnM6S42QCzhtGhkfHcWzCBjJMtq8/X3/20230127KC7_6059-HDR-X3.jpg"
 featured: false
-order: 7
 photos:
   - "https://photos.smugmug.com/photos/i-sBHbqL7/2/NfQ2cgsKWWJ5tNnM6S42QCzhtGhkfHcWzCBjJMtq8/X3/20230127KC7_6059-HDR-X3.jpg"
   - "https://photos.smugmug.com/photos/i-Dv6Gm9d/4/Mg2Jvbp4GkxvRdns36SPGXKBMM6rHLhnJ6grCSZqZ/M/20230127KC7_6104-HDR-M.jpg"

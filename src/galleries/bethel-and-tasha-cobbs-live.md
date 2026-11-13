@@ -5,7 +5,6 @@ date: 2019-09-26
 description: "Bethel Music and Tasha Cobbs, live."
 cover: "https://photos.smugmug.com/Concerts/Concerts/Bethel/20190926-Bethel-Concert/i-KRQSWSS/1/KSGCKrPLDn9qvxW5jn7mz5MG5bk6Xr2f8635WhHdt/X3/CAP19DSC03660-X3.jpg"
 featured: true
-order: 1
 photos:
   - "https://photos.smugmug.com/Concerts/Concerts/Bethel/20190926-Bethel-Concert/i-KRQSWSS/1/KSGCKrPLDn9qvxW5jn7mz5MG5bk6Xr2f8635WhHdt/X3/CAP19DSC03660-X3.jpg"
   - "https://photos.smugmug.com/Concerts/Concerts/20190720-Tasha-Cobbs/i-vqV3GkF/0/Lp8cSTzbb3nqvQLC92DLmZfHfVQZmQnt6z6WJdSdw/X3/RMNT19-D2D71_8839-X3.jpg"

@@ -1,143 +1,216 @@
-# Admin panel (Decap CMS). Kim signs in at yoursite.com/admin with her email + password (Netlify Identity).
-# Every save commits to GitHub and Netlify republishes the site in about a minute.
+# Admin panel (Decap CMS) for Knack for Creativity.
+# Kim signs in at yoursite.com/admin with her email + password (Netlify Identity, invite only).
+#
+# Draft mode (editorial workflow): "Save" keeps a draft that does NOT change the live site and
+# costs no Netlify credits. Only "Publish" updates the site (one deploy = 15 credits).
 backend:
   name: git-gateway
   branch: main
+  commit_messages:
+    create: "Add {{collection}} “{{slug}}”"
+    update: "Update {{collection}} “{{slug}}”"
+    delete: "Remove {{collection}} “{{slug}}”"
+    uploadMedia: "Upload “{{path}}”"
+    deleteMedia: "Delete “{{path}}”"
 
-publish_mode: simple
+# When you run `npm run admin` on your Mac, the admin edits your local files instead
+# (no login, no pushes, no credits). Online, this line does nothing.
+local_backend: true
+
+publish_mode: editorial_workflow
 site_url: /
 display_url: /
 logo_url: /assets/admin-logo.svg
+show_preview_links: true
 
 media_folder: "src/images/uploads"
 public_folder: "/images/uploads"
 
 collections:
+  # ---------------------------------------------------------------- Galleries
   - name: galleries
     label: Galleries
     label_singular: Gallery
-    description: "Each gallery is an album on the Work page. Click 'New Gallery' to add one."
+    description: "Your albums. Click “New Gallery”, give it a name, drag in your photos and pick a cover. Save as you go; nothing goes live until you Publish."
     folder: "src/galleries"
     create: true
     delete: true
     slug: "{{slug}}"
     extension: md
     format: frontmatter
-    summary: "{{title}} — {{category}} ({{year}})"
+    summary: "{{title}} · {{category}} · {{year}}"
     sortable_fields: ["date", "title", "category"]
-    editor: { preview: false }
     view_groups:
-      - label: Category
-        field: category
+      - { label: Category, field: category }
+    editor: { preview: false }
     fields:
-      - { label: "Gallery title", name: title, widget: string }
-      - label: Category
+      - { label: "Gallery name", name: title, widget: string, hint: "e.g. “The Galvez Wedding”" }
+      - label: "What kind of shoot?"
         name: category
         widget: select
         options: ["Weddings", "Graduations", "Concerts", "Conferences", "Lifestyle", "Sports", "Real Estate", "BTS & Stills"]
-      - { label: "Shoot date", name: date, widget: datetime, time_format: false, date_format: "MMM D, YYYY", format: "YYYY-MM-DD" }
-      - { label: "Location (optional)", name: location, widget: string, required: false }
-      - { label: "Short description", name: description, widget: string, required: false, hint: "One line shown under the title." }
-      - { label: "Cover photo", name: cover, widget: image, hint: "Shown on the Work page and home page." }
+      - { label: "Date of the shoot", name: date, widget: datetime, time_format: false, date_format: "MMM D, YYYY", format: "YYYY-MM-DD", hint: "Galleries are listed newest first." }
+      - { label: "Cover photo", name: cover, widget: image, choose_url: false, hint: "The photo people see before they open the gallery. Usually one of this gallery's photos." }
       - label: Photos
         name: photos
         widget: image
         multiple: true
-        hint: "Select or drag in several photos at once. Drag to reorder. Export for web first (about 2000px on the long edge)."
-      - { label: "Sort order", name: order, widget: number, default: 50, value_type: int, hint: "Lower numbers show first. The first three also appear on the home page." }
+        choose_url: false
+        hint: "Click “Choose images”, then Upload and select as many photos as you like at once. Adding more later? In the picker, click the photos already in this gallery as well as the new ones, then “Choose selected”; anything you leave unclicked is taken out of the gallery (it stays in your photo library). Drag photos to reorder. Export for web first (about 2000px on the long side)."
+      - { label: "One-line description ", name: description, widget: string, required: false, hint: "Shown under the gallery name." }
+      - { label: "Location ", name: location, widget: string, required: false }
+      - { label: "Show on the home page", name: featured, widget: boolean, default: false, required: false, hint: "Up to three switched-on galleries appear in the home page's Galleries section." }
 
-  - name: pages
+  # ---------------------------------------------------------------- Home page
+  - name: home
     label: Home page
+    description: "The cover at the top of your site and the “How your day will look” photo chapters."
     editor: { preview: false }
     files:
-      - name: site
-        label: "Cover, contact & HoneyBook"
+      - name: cover
+        label: "Cover & intro"
         file: "src/_data/site.json"
         fields:
-          - { label: "Business name", name: name, widget: string }
+          - { label: "Cover photo", name: portrait, widget: image, choose_url: false, hint: "Tall photos work best." }
+          - { label: "Describe the cover photo", name: portrait_alt, widget: string, hint: "One short sentence for people using screen readers, e.g. “Kimberly holding a film camera”." }
           - { label: "Your name", name: owner, widget: string }
-          - { label: "Top-left line", name: strap, widget: string, hint: "e.g. Photography & Creative Direction · Dallas, Texas" }
-          - { label: "Title under your name", name: role, widget: string }
-          - { label: "Cover photo", name: portrait, widget: image }
-          - { label: "Cover photo description", name: portrait_alt, widget: string, hint: "Describes the photo for screen readers." }
+          - { label: "Your title", name: role, widget: string, hint: "Shown above your name." }
           - { label: "Intro paragraph", name: statement, widget: text }
-          - { label: "Contact heading", name: contact_heading, widget: string, hint: "Put *stars* around a word to make it italic." }
-          - { label: "Contact text", name: contact_text, widget: text }
-          - { label: "HoneyBook form link", name: honeybook_link, widget: string, required: false, hint: "In HoneyBook: open your contact form → Publish → copy the direct link. Every Inquire button goes here." }
-          - label: "HoneyBook embed code (optional)"
+          - { label: "Line at the very top of the site", name: strap, widget: string, hint: "e.g. “Photography & Creative Direction · Dallas, Texas”" }
+          - { label: "Business name", name: name, widget: string, hint: "Used in browser tabs and the footer." }
+
+      - name: chapters
+        label: "How your day will look"
+        file: "src/_data/home.json"
+        fields:
+          - { label: "Section heading", name: heading, widget: string }
+          - { label: "Small line under the heading", name: label, widget: string }
+          - label: "Chapters (each one is a tab)"
+            name: chapters
+            label_singular: chapter
+            widget: list
+            collapsed: true
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Tab name", name: title, widget: string, hint: "e.g. Weddings" }
+              - { label: "Small line under the tabs", name: label, widget: string, hint: "e.g. “Ceremony to last dance”" }
+              - label: Photos
+                name: photos
+                label_singular: photo
+                widget: list
+                collapsed: true
+                summary: "{{fields.caption}}"
+                hint: "5 or 6 photos looks best. Photos are shown whole, never cropped."
+                fields:
+                  - { label: Photo, name: image, widget: image, choose_url: false }
+                  - { label: "Caption ", name: caption, widget: string, required: false, hint: "e.g. Ceremony, First dance" }
+
+  # ---------------------------------------------------------------- Prices
+  - name: prices
+    label: Prices
+    description: "Your starting prices and the two inquiry cards under them."
+    editor: { preview: false }
+    files:
+      - name: pricing
+        label: "Starting prices"
+        file: "src/_data/pricing.json"
+        fields:
+          - { label: "Section heading", name: heading, widget: string }
+          - { label: "Small line under the heading", name: label, widget: string }
+          - label: "Prices"
+            name: rows
+            label_singular: price
+            widget: list
+            collapsed: true
+            summary: "{{fields.name}} · {{fields.price}}"
+            fields:
+              - { label: "What it's for", name: name, widget: string, hint: "e.g. Weddings" }
+              - { label: "Starting price", name: price, widget: string, hint: "Include the $, e.g. $1,800" }
+              - { label: "Per ", name: unit, widget: string, required: false, hint: "e.g. “/ hour”. Leave empty for a flat price." }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Button text", name: button, widget: string, hint: "e.g. Book a session" }
+              - { label: "Make the button solid", name: primary, widget: boolean, required: false, hint: "Use on one price to draw the eye." }
+          - label: "Inquiry cards"
+            name: cards
+            label_singular: card
+            widget: list
+            collapsed: true
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Small label", name: label, widget: string }
+              - { label: "Title", name: title, widget: string }
+              - { label: "Text", name: text, widget: text }
+              - { label: "Tags ", name: tags, widget: list, required: false, hint: "Separate with commas." }
+
+  # ---------------------------------------------------------------- Reviews
+  - name: reviews
+    label: Reviews
+    description: "Client reviews shown on the home page. New reviews people send through the site's form arrive in Netlify (Forms) and by email; paste the ones you love here."
+    editor: { preview: false }
+    files:
+      - name: reviews
+        label: "Reviews"
+        file: "src/_data/reviews.json"
+        fields:
+          - label: "Reviews"
+            name: reviews
+            label_singular: review
+            widget: list
+            collapsed: true
+            summary: "{{fields.name}} · {{fields.occasion}}"
+            fields:
+              - { label: "Client name", name: name, widget: string, hint: "First names are fine, e.g. “Erika & Daniel”" }
+              - { label: "What you shot", name: occasion, widget: string, required: false, hint: "e.g. Wedding, 2024" }
+              - { label: "Review", name: quote, widget: text }
+              - { label: "Show on the site", name: show, widget: boolean, default: true, hint: "Only switch on reviews the client said you can share." }
+          - { label: "Section heading", name: heading, widget: string }
+          - { label: "Small line under the heading", name: label, widget: string }
+          - { label: "Form heading", name: form_heading, widget: string }
+          - { label: "Form text", name: form_text, widget: text }
+
+  # ---------------------------------------------------------------- Contact
+  - name: contact
+    label: Contact & HoneyBook
+    description: "Where the Inquire buttons send people, and how they can reach you."
+    editor: { preview: false }
+    files:
+      - name: contact
+        label: "Contact & HoneyBook"
+        file: "src/_data/contact.json"
+        fields:
+          - { label: "HoneyBook form link", name: honeybook_link, widget: string, required: false, hint: "In HoneyBook, open your contact form → Publish → copy the direct link and paste it here. Every Inquire button on the site goes to it." }
+          - { label: "Heading", name: contact_heading, widget: string, hint: "Put *stars* around a word to make it italic, like *your*." }
+          - { label: "Text", name: contact_text, widget: text }
+          - { label: "Email ", name: email, widget: string, required: false }
+          - { label: "Instagram handle ", name: instagram, widget: string, required: false, hint: "Without the @" }
+          - label: "HoneyBook embed code (advanced, optional)"
             name: honeybook_embed
             widget: code
             default_language: html
             output_code_only: true
             required: false
-            hint: "To show the form on the page itself: HoneyBook → Publish → Copy code, then paste here."
-          - { label: "Email", name: email, widget: string, required: false }
-          - { label: "Instagram handle (no @)", name: instagram, widget: string, required: false }
+            hint: "Only if you want the form shown on the page itself: HoneyBook → Publish → Copy code."
 
-      - name: home
-        label: "How your day will look"
-        file: "src/_data/home.json"
-        fields:
-          - { label: Heading, name: heading, widget: string }
-          - { label: "Small label", name: label, widget: string }
-          - label: Chapters
-            name: chapters
-            widget: list
-            collapsed: true
-            summary: "{{fields.title}}"
-            fields:
-              - { label: Title, name: title, widget: string }
-              - { label: "Small label", name: label, widget: string }
-              - label: Photos
-                name: photos
-                widget: list
-                collapsed: true
-                summary: "{{fields.caption}}"
-                hint: "4, 5 or 6 photos fill the layout best."
-                fields:
-                  - { label: Photo, name: image, widget: image }
-                  - { label: "Caption (optional)", name: caption, widget: string, required: false }
-
-      - name: pricing
-        label: "Starting prices"
-        file: "src/_data/pricing.json"
-        fields:
-          - { label: Heading, name: heading, widget: string }
-          - { label: "Small label", name: label, widget: string }
-          - label: "Price rows"
-            name: rows
-            widget: list
-            collapsed: true
-            summary: "{{fields.name}} — {{fields.price}}"
-            fields:
-              - { label: Name, name: name, widget: string }
-              - { label: Description, name: description, widget: text }
-              - { label: "Starting price", name: price, widget: string }
-              - { label: "Unit (optional)", name: unit, widget: string, required: false, hint: "e.g. / hour" }
-              - { label: "Button text", name: button, widget: string }
-              - { label: "Solid button", name: primary, widget: boolean, required: false }
-          - label: "Inquiry cards"
-            name: cards
-            widget: list
-            summary: "{{fields.title}}"
-            fields:
-              - { label: "Small label", name: label, widget: string }
-              - { label: Title, name: title, widget: string }
-              - { label: Text, name: text, widget: text }
-              - { label: Tags, name: tags, widget: list, required: false }
-
+  # ---------------------------------------------------------------- Films
+  - name: films
+    label: Films
+    description: "Video reels. The Films section stays hidden until at least one film has a link."
+    editor: { preview: false }
+    files:
       - name: films
-        label: Films
+        label: "Films"
         file: "src/_data/films.json"
         fields:
-          - { label: Heading, name: heading, widget: string }
-          - { label: "Small label", name: label, widget: string }
-          - label: Films
+          - { label: "Section heading", name: heading, widget: string }
+          - { label: "Small line under the heading", name: label, widget: string }
+          - label: "Films"
             name: films
+            label_singular: film
             widget: list
+            collapsed: true
             summary: "{{fields.title}}"
             fields:
-              - { label: Title, name: title, widget: string }
-              - { label: "Small label", name: label, widget: string }
-              - { label: "Video link (Vimeo or YouTube)", name: url, widget: string, required: false, hint: "The Films section only appears once at least one film has a link." }
-              - { label: "Thumbnail", name: thumbnail, widget: image, required: false }
+              - { label: "Film title", name: title, widget: string }
+              - { label: "Small label", name: label, widget: string, hint: "e.g. Reel I" }
+              - { label: "Video link", name: url, widget: string, required: false, hint: "A Vimeo or YouTube link. Opens in a new tab." }
+              - { label: "Thumbnail ", name: thumbnail, widget: image, required: false, choose_url: false }

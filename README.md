@@ -29,6 +29,31 @@ The starter galleries point to photos still hosted on her SmugMug, so the site l
 
 Check before launch: the Instagram handle and email in **Site settings**, and the shoot dates on the starter galleries (some are approximate).
 
+## Testing before anything goes live (costs no Netlify credits)
+
+**Preview the site on your Mac**
+```
+npm install      # once
+npm start        # site at http://localhost:8080, refreshes as you edit
+```
+
+**Try the admin on your Mac** (edits your local files; no login, nothing published)
+```
+npm run admin    # then open http://localhost:8080/admin/
+```
+When you're happy, push as usual (`git add -A`, `git commit -m "..."`, `git push`).
+
+**Drafts in the live admin**
+The admin runs in draft mode: **Save** keeps a draft (the live site doesn't change and it costs no credits). In the **Workflow** tab, move a draft to **Ready**, then **Publish**. Each Publish is one Netlify deploy (15 credits).
+
+**Optional: a free staging copy online**
+Netlify branch deploys cost 0 credits. Once, in Netlify: *Project configuration → Build & deploy → Branches and deploy contexts → Branch deploys → Let me add individual branches → `staging`*. Then:
+```
+git checkout -b staging      # first time only (afterwards: git checkout staging)
+git push -u origin staging   # staging--YOUR-SITE.netlify.app
+```
+When it looks right: `git checkout main && git merge staging && git push`.
+
 ## Run locally (optional)
 
 ```

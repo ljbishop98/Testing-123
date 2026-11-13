@@ -5,7 +5,6 @@ date: 2022-07-16
 description: "Ceremony through the last dance."
 cover: "https://photos.smugmug.com/Events/Weddings/20220716-Galvez-Wedding/Ceremony/i-sswvKGd/0/L8pS9X6gg6fFddWpPDtdBZmHpC453nXVsLZgx83mV/X3/20220716KC7_5685-X3.jpg"
 featured: true
-order: 3
 photos:
   - "https://photos.smugmug.com/Events/Weddings/20220716-Galvez-Wedding/Ceremony/i-sswvKGd/0/L8pS9X6gg6fFddWpPDtdBZmHpC453nXVsLZgx83mV/X3/20220716KC7_5685-X3.jpg"
   - "https://photos.smugmug.com/Events/Weddings/20220716-Galvez-Wedding/Reception/i-TLZcfdH/0/NCJVXbG6ScXP53mXGQSCjrVc3N6Tjbj5CsfGV9W4q/M/20220716JPM01077-M.jpg"
