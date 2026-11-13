@@ -18,7 +18,7 @@ isHome: true
     <nav class="cell cl" aria-label="In this issue">
       <a href="#works"><span class="t">{{ home.heading }}</span><span class="s">{% for c in home.chapters %}{{ c.title | replace(" & worship nights", "") }}{% if not loop.last %} &middot; {% endif %}{% endfor %}</span></a>
       <a href="#pricing"><span class="t">{{ pricing.heading }}</span><span class="s">{{ pricing.label }}</span></a>
-      <a href="{{ '/work.html' | rel(page.url) }}"><span class="t">Galleries</span><span class="s">{{ collections.galleries.length }} albums</span></a>
+      <a href="#galleries"><span class="t">Galleries</span><span class="s">{{ collections.galleries.length }} albums</span></a>
     </nav>
   </div>
 </div>
@@ -28,8 +28,11 @@ isHome: true
     <h2>{{ home.heading }}</h2>
     <p class="label">{{ home.label }}</p>
   </div>
+  <div class="tabs" role="tablist" aria-label="Kinds of day" hidden>
+    {% for ch in home.chapters %}<button class="tab" role="tab" id="tab-{{ loop.index }}" aria-controls="ch-{{ loop.index }}" aria-selected="{{ 'true' if loop.first else 'false' }}">{{ ch.title }}</button>{% endfor %}
+  </div>
   {% for ch in home.chapters %}
-  <div class="chapter">
+  <div class="chapter" id="ch-{{ loop.index }}" role="tabpanel" aria-labelledby="tab-{{ loop.index }}">
     <div class="chapter-head"><h3>{{ ch.title }}</h3><p class="label">{{ ch.label }}</p></div>
     <div class="sheet" data-lightbox>
       {% for p in ch.photos %}
@@ -41,6 +44,21 @@ isHome: true
     </div>
   </div>
   {% endfor %}
+</section>
+
+<section id="galleries">
+  <div class="sec-head">
+    <h2>Galleries</h2>
+    <a class="label sec-link" href="{{ '/work.html' | rel(page.url) }}">All {{ collections.galleries.length }} albums &rarr;</a>
+  </div>
+  <div class="album-grid album-teaser">
+    {% for g in collections.galleries | head(3) %}
+    <a class="album" href="{{ g.url | rel(page.url) }}">
+      <span class="tile album-img"><img src="{{ g.data.cover | rel(page.url) }}" alt="" loading="lazy"></span>
+      <span class="meta"><span class="label">{{ g.data.category }}</span><span class="t">{{ g.data.title }}</span></span>
+    </a>
+    {% endfor %}
+  </div>
 </section>
 
 <section id="pricing">
@@ -73,13 +91,15 @@ isHome: true
   </div>
 </section>
 
+{% set liveFilms = films.films | selectattr("url") %}
+{% if liveFilms.length %}
 <section id="films">
   <div class="sec-head">
     <h2>{{ films.heading }}</h2>
     <p class="label">{{ films.label }}</p>
   </div>
   <div class="films">
-    {% for f in films.films %}
+    {% for f in liveFilms %}
     <a class="film" {% if f.url %}href="{{ f.url }}" target="_blank" rel="noopener"{% else %}aria-disabled="true"{% endif %}>
       <div class="tile film-tile">
         {% if f.thumbnail %}<img src="{{ f.thumbnail | rel(page.url) }}" alt="" loading="lazy">{% else %}<span class="ph">Film coming soon</span>{% endif %}
@@ -91,6 +111,8 @@ isHome: true
   </div>
 </section>
 
+{% endif %}
+
 <section id="contact">
   <div class="contact">
     <h2>{{ site.contact_heading | em | safe }}</h2>
@@ -101,9 +123,9 @@ isHome: true
     {% if site.honeybook_embed %}
       <div class="embed">{{ site.honeybook_embed | safe }}</div>
     {% elif not site.honeybook_link %}
-      <div class="embed-empty">
-        <p class="label">HoneyBook form goes here</p>
-        <p>In the admin, open <strong>Site settings</strong> and paste either your HoneyBook form link (for the Inquire buttons) or the embed code (to show the form right here).</p>
+      <div class="contact-fallback">
+        {% if site.email %}<a class="btn" href="mailto:{{ site.email }}">Email me</a>{% endif %}
+        {% if site.instagram %}<a class="btn ghost" href="https://instagram.com/{{ site.instagram }}" target="_blank" rel="noopener">Message @{{ site.instagram }}</a>{% endif %}
       </div>
     {% endif %}
   </div>

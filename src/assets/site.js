@@ -84,3 +84,29 @@ window.addEventListener("load", () => {
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
   window.addEventListener("resize", fit);
 })();
+
+// "How your day will look": show one chapter at a time as tabs (everything stays visible without JavaScript)
+(function () {
+  var bar = document.querySelector(".tabs");
+  if (!bar) return;
+  var tabs = [].slice.call(bar.querySelectorAll(".tab"));
+  var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute("aria-controls")); });
+  function select(i, focus) {
+    tabs.forEach(function (t, n) {
+      t.setAttribute("aria-selected", String(n === i));
+      t.tabIndex = n === i ? 0 : -1;
+      panels[n].hidden = n !== i;
+    });
+    if (focus) tabs[i].focus();
+  }
+  bar.hidden = false;
+  document.body.classList.add("has-tabs");
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { select(i); });
+    t.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") select((i + 1) % tabs.length, true);
+      if (e.key === "ArrowLeft") select((i - 1 + tabs.length) % tabs.length, true);
+    });
+  });
+  select(0);
+})();

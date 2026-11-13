@@ -39,6 +39,8 @@ export default function (eleventyConfig) {
     return l[i % l.length];
   });
 
+  eleventyConfig.addFilter("head", (arr, n) => (arr || []).slice(0, n));
+
   eleventyConfig.addFilter("byCategory", (items, cat) => items.filter((g) => g.data.category === cat));
 
   eleventyConfig.addCollection("galleries", (api) =>

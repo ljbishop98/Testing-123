@@ -55,7 +55,7 @@ h1, h2, h3 { font-family: var(--font-display); }
 .mast-sm .mega { line-height: 0.9; }
 
 /* cover spread */
-.cover { display: grid; grid-template-columns: 1.05fr 1fr; border-bottom: 4px solid var(--wine); }
+.cover { display: grid; grid-template-columns: 1.05fr 1fr; }
 .cover > * { min-width: 0; }
 .cover-shot { position: relative; min-height: 560px; border-right: 1px solid var(--wine); }
 .cover-shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
@@ -81,6 +81,19 @@ section { padding-top: 88px; }
 section.first { padding-top: 40px; }
 .sec-head { border-top: 4px solid var(--wine); padding-top: 14px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px 24px; flex-wrap: wrap; margin-bottom: 8px; }
 .sec-head h2, .h-sec { font-weight: 800; text-transform: uppercase; font-size: clamp(38px, 6.4vw, 96px); line-height: 0.9; letter-spacing: -0.012em; text-wrap: balance; }
+/* chapter tabs */
+.tabs { display: flex; flex-wrap: wrap; gap: 4px 28px; margin-top: 28px; border-bottom: 1px solid var(--wine); }
+.tab { background: none; border: 0; border-bottom: 3px solid transparent; margin-bottom: -1px; padding: 0 0 10px; cursor: pointer;
+  font: italic 700 clamp(22px, 2.4vw, 34px)/1.1 var(--font-display); color: var(--muted); transition: color .15s, border-color .15s; }
+.tab:hover { color: var(--wine); }
+.tab[aria-selected="true"] { color: var(--wine); border-bottom-color: var(--wine); }
+.has-tabs .chapter { margin-top: 16px; }
+.has-tabs .chapter-head { border-top: 0; padding-top: 0; }
+.has-tabs .chapter-head h3 { display: none; }
+.sec-link { text-decoration: none; }
+.sec-link:hover { text-decoration: underline; text-underline-offset: 6px; }
+.album-grid.album-teaser { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 24px; }
+.contact-fallback { display: flex; flex-wrap: wrap; gap: 12px; }
 .back { display: inline-block; text-decoration: none; margin-bottom: 20px; }
 .back:hover { text-decoration: underline; text-underline-offset: 6px; }
 
@@ -184,6 +197,36 @@ button.tile { cursor: zoom-in; font: inherit; color: inherit; text-align: left; 
 
 @media (max-width: 860px) {
   body { font-size: 16px; }
+  .strip { padding-block: 12px 10px; }
+  .strip .strap { display: none; }
+  .strip .nav { width: 100%; flex-wrap: nowrap; justify-content: space-between; gap: 14px; overflow-x: auto; scrollbar-width: none; font-size: 11px; letter-spacing: 0.14em; }
+  .strip .nav::-webkit-scrollbar { display: none; }
+  .strip .nav a { white-space: nowrap; flex: none; }
+  .strip .nav a.inq { padding: 9px 12px; }
+  .mast { padding-top: 10px; padding-bottom: 10px; }
+  .cl a { flex-direction: column; align-items: flex-start; gap: 4px; padding-block: 16px; }
+  .cl .s { text-align: left; }
+  .who .name { margin-top: 8px; }
+  .statement { font-size: 19px; line-height: 1.5; }
+  .sec-head { margin-bottom: 4px; }
+  .chapter { margin-top: 36px; }
+  .chapter-head { flex-direction: column; gap: 6px; }
+  .sheet { gap: 6px; }
+  .strip .nav a:first-child { display: none; }
+  .tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 22px; margin-top: 20px; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { white-space: nowrap; font-size: 22px; }
+  .album-grid.album-teaser { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding-inline: max(16px, env(safe-area-inset-left, 0px)); scrollbar-width: none; }
+  .album-teaser::-webkit-scrollbar { display: none; }
+  .album-teaser .album { flex: 0 0 78%; scroll-snap-align: start; }
+  .album-grid { gap: 28px; }
+  .row { gap: 14px; }
+  .row .buy { margin-top: 6px; }
+  .price { font-size: 52px; }
+  .card { padding: 22px; }
+  .contact { gap: 24px; }
+  .contact .row2 p { font-size: 20px; }
+  .foot { flex-direction: column; margin-top: 56px; }
   .mega .l { display: block; width: max-content; margin-inline: auto; }
   .mega { font-size: 15vw; line-height: 0.9; }
   .cover { grid-template-columns: 1fr; }

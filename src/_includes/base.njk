@@ -18,13 +18,13 @@
   <a class="skip" href="#main">Skip to content</a>
   <div class="wrap">
     <div class="strip">
-      <span class="label">{{ site.strap }}</span>
+      <span class="label strap">{{ site.strap }}</span>
       <nav class="nav" aria-label="Sections">
         <a href="{{ homeUrl }}#top">Info</a>
         <a href="{{ homeUrl }}#works">Your day</a>
-        <a href="{{ homeUrl }}#pricing">Pricing</a>
-        <a href="{{ homeUrl }}#films">Films</a>
         <a href="{{ '/work.html' | rel(page.url) }}"{% if nav == 'work' %} aria-current="page"{% endif %}>Galleries</a>
+        <a href="{{ homeUrl }}#pricing">Pricing</a>
+        {% if (films.films | selectattr("url")).length %}<a href="{{ homeUrl }}#films">Films</a>{% endif %}
         <a class="inq" href="{{ inquire }}"{% if site.honeybook_link %} target="_blank" rel="noopener"{% endif %}>Inquire</a>
       </nav>
     </div>

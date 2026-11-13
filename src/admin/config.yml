@@ -25,6 +25,7 @@ collections:
     format: frontmatter
     summary: "{{title}} — {{category}} ({{year}})"
     sortable_fields: ["date", "title", "category"]
+    editor: { preview: false }
     view_groups:
       - label: Category
         field: category
@@ -43,7 +44,7 @@ collections:
         widget: image
         multiple: true
         hint: "Select or drag in several photos at once. Drag to reorder. Export for web first (about 2000px on the long edge)."
-      - { label: "Sort order", name: order, widget: number, default: 50, value_type: int, hint: "Lower numbers show first on the Work page." }
+      - { label: "Sort order", name: order, widget: number, default: 50, value_type: int, hint: "Lower numbers show first. The first three also appear on the home page." }
 
   - name: pages
     label: Home page
@@ -82,6 +83,7 @@ collections:
           - label: Chapters
             name: chapters
             widget: list
+            collapsed: true
             summary: "{{fields.title}}"
             fields:
               - { label: Title, name: title, widget: string }
@@ -89,6 +91,7 @@ collections:
               - label: Photos
                 name: photos
                 widget: list
+                collapsed: true
                 summary: "{{fields.caption}}"
                 hint: "4, 5 or 6 photos fill the layout best."
                 fields:
@@ -104,6 +107,7 @@ collections:
           - label: "Price rows"
             name: rows
             widget: list
+            collapsed: true
             summary: "{{fields.name}} — {{fields.price}}"
             fields:
               - { label: Name, name: name, widget: string }
@@ -135,5 +139,5 @@ collections:
             fields:
               - { label: Title, name: title, widget: string }
               - { label: "Small label", name: label, widget: string }
-              - { label: "Video link (Vimeo or YouTube)", name: url, widget: string, required: false }
+              - { label: "Video link (Vimeo or YouTube)", name: url, widget: string, required: false, hint: "The Films section only appears once at least one film has a link." }
               - { label: "Thumbnail", name: thumbnail, widget: image, required: false }
